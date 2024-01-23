@@ -56,7 +56,7 @@ const Home = ({movies}) => {
                 searchTerm={searchTerm}
             ></InputBox >
 
-            <MovieList movies={movies} />
+            {/* <MovieList movies={movies} /> */}
         </>
     );
 };

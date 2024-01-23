@@ -43,6 +43,7 @@ const NavBar = () => {
           <Nav>
             <NavLink to='/'>Home</NavLink>
             <NavLink to='/loves'>loves</NavLink>
+            <NavLink to='/login'>login</NavLink>
           </Nav>
         </NavElement>
 

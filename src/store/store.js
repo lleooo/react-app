@@ -5,6 +5,6 @@ import logger from 'redux-logger';
 
 import {rootReducer} from './root-reducer';
 
-const enhancer = applyMiddleware(thunk);
+const enhancer = applyMiddleware(thunk, logger);
 
 export const store = createStore(rootReducer, {}, enhancer);

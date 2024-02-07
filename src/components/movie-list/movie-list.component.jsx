@@ -1,25 +1,30 @@
 import styled from "styled-components";
 import MovieCard from "../movie-card/moive-card.component";
+import {useState} from "react";
 
 const ListContainer = styled.div`
+    position:absolute;
+    bottom:.5rem;
     width:100%;
-    display:flex;
-    justify-content:center
+    overflow:hidden;
+    transition: transform 0.5s ease;
 `;
 
 const List = styled.div`
-    width:90%;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between
+    width:5000px;
+    position: relative;
+    display: flex;
+    transition: transform 0.5s ease;
 `;
 
-const MovieList = ({movies}) => {
+const MovieList = ({movies, cardIndex}) => {
+    const initPos = 130, gap = cardIndex * 130;
     return (
         <ListContainer>
-            <List>
-                {movies.map((movie) => {
-                    return <MovieCard detail={movie}></MovieCard>;
+            <List style={{transform: `translateX(${initPos - gap}px)`}}>
+                {movies.map((movie, index) => {
+                    let activeCard = index === cardIndex ? true : false;
+                    return <MovieCard key={movie.id} detail={movie} activeCard={activeCard}></MovieCard>;
                 })}
             </List>
         </ListContainer>

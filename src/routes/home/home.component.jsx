@@ -1,62 +1,64 @@
+import styled from "styled-components";
+import {SlArrowRightCircle} from "react-icons/sl";
 import MovieList from "../../components/movie-list/movie-list.component";
-import InputBox from "../../components/input-box/input-box.component";
 import {useState, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {fetchSearchMovie} from "../../utils/tmdb/tmdb.utils";
+import {useDispatch, useSelector} from "react-redux";
+import {refreshTokenAsync} from "../../store/jwt-token/token.action";
+import BackgroundMovie from "../../components/background-movie/background-movie.component";
 
+const Icon = styled(SlArrowRightCircle)`
+    position:absolute;
+    top:50%;
+    transform:translate(0%,-50%);
+    right:0;
+    font-size:40px;
+    
+    &:hover{
+        color:red;
+    }
+`;
 
 const Home = ({movies}) => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [suggestion, setSuggestion] = useState([]);
-    const timer = useRef();
-    const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
+    const {login, access_token} = useSelector(state => state.user);
+    const [cardIndex, setCardIndex] = useState(0);
+    const dispatch = useDispatch();
 
 
-    const handleKeyDown = async (event) => {
-        if (event.key === 'Enter') {
-            let searchMovie = suggestion;
-
-            if (timer.current !== null) {
-                clearTimeout(timer.current);
-                searchMovie = await fetchSearchMovie(searchTerm);
-            }
-
-            navigate('/search', {
-                state: searchMovie
+    const addLove = (token) => {
+        if (login) {
+            const addResp = fetch('api/addFavorite', {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': token
+                }
             });
-        }
-    };
 
-    useEffect(() => {
-        if (searchTerm !== '') {
-            timer.current = setTimeout(async () => {
-                const res = await fetchSearchMovie(searchTerm);
-                setSuggestion(res);
-                timer.current = null;
-            }, 500);
-        }
+            addResp.then(async (res) => await res.json()).then(({msg}) => {
+                if (msg === 'success') {
+                    console.log('新增成功');
+                } else if (msg === 'access expired') {
+                    dispatch(refreshTokenAsync()).then((res) => {
+                        addLove(res.token);
+                    });
+                } else {
 
-        return () => {
-            clearTimeout(timer.current);
+                }
+            });
         };
-    }, [searchTerm]);
-
+    };
 
     return (
         <>
-            <InputBox
-                onChange={e => handleChange(e)}
-                onKeyDown={e => handleKeyDown(e)}
-                suggestion={suggestion}
-                searchTerm={searchTerm}
-            ></InputBox >
+            <BackgroundMovie cardIndex={cardIndex}></BackgroundMovie>
+            <MovieList movies={movies} cardIndex={cardIndex} />
+            <Icon onClick={() => {
+                if (cardIndex < movies.length - 1) setCardIndex(prevIndex => prevIndex + 1);
+            }}></Icon>
 
-            {/* <MovieList movies={movies} /> */}
+            {/* <button onClick={() => {addLove(access_token);}}>假裝</button> */}
         </>
     );
 };

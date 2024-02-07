@@ -12,18 +12,11 @@ import Login from './routes/login/login.component';
 
 
 function App() {
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const monsters = useSelector(state => state.monster);
 
   useEffect(() => {
-    // const token = sessionStorage.getItem('test');
-
-    // if (token) {
     dispatch(getMonsterAsync());
-    // } else {
-    //   navigate('/login');
-    // }
   }, []);
 
   return (

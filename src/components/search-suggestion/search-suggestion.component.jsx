@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 
 const SuggestContainer = styled.div`
   border:1px solid #ccc;
-  width:15%;
+  width:100%;
 `;
 
 const SuggestItem = styled.div`

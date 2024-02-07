@@ -4,5 +4,5 @@ import {tokenReducer} from './jwt-token/token.reducer';
 
 export const rootReducer = combineReducers({
     monster: monsterReducer,
-    token: tokenReducer
+    user: tokenReducer
 });

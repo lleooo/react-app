@@ -8,7 +8,8 @@ import Home from './routes/home/home.component';
 import Loves from './routes/loves/love.component';
 import Detail from './routes/movie-detail/moive-detail.component';
 import Search from './routes/search/search.component';
-import Login from './routes/login/login.component';
+import Auth from './routes/auth/auth.component';
+import PrivateRouteComponent from './routes/private-route/private-route.component';
 
 
 function App() {
@@ -23,10 +24,10 @@ function App() {
     <div className='app'>
       <Routes>
         <Route path='/' element={<NavBar />}>
-          <Route index element={<Home movies={monsters} />} />
-          <Route path='loves' element={<Loves />} />
+          <Route path='home' element={<PrivateRouteComponent Component={Home} movies={monsters} />} />
+          <Route path='loves' element={<PrivateRouteComponent Component={Loves} />} />
           <Route path='search' element={<Search />} />
-          <Route path='login' element={<Login />}></Route>
+          <Route index element={<Auth />}></Route>
           <Route path='movieDatil' element={<Detail />} />
         </Route>
       </Routes>

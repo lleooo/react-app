@@ -9,6 +9,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {refreshTokenAsync} from "../../store/jwt-token/token.action";
 import BackgroundMovie from "../../components/background-movie/background-movie.component";
 
+import {getMonsterAsync} from "../../store/monster/monster.action";
+
 const Icon = styled(SlArrowRightCircle)`
     position:absolute;
     top:50%;
@@ -21,42 +23,20 @@ const Icon = styled(SlArrowRightCircle)`
     }
 `;
 
-const Home = ({movies}) => {
-    const {login, access_token} = useSelector(state => state.user);
-    const [cardIndex, setCardIndex] = useState(0);
+const Home = () => {
+    const {index} = useSelector(state => state.background);
     const dispatch = useDispatch();
-
-
-    const addLove = (token) => {
-        if (login) {
-            const addResp = fetch('api/addFavorite', {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': token
-                }
-            });
-
-            addResp.then(async (res) => await res.json()).then(({msg}) => {
-                if (msg === 'success') {
-                    console.log('新增成功');
-                } else if (msg === 'access expired') {
-                    dispatch(refreshTokenAsync()).then((res) => {
-                        addLove(res.token);
-                    });
-                } else {
-
-                }
-            });
-        };
-    };
-
+    const movies = useSelector(state => state.monster);
+    useEffect(() => {
+        dispatch(getMonsterAsync());
+    }, []);
     return (
         <>
-            <BackgroundMovie cardIndex={cardIndex}></BackgroundMovie>
-            <MovieList movies={movies} cardIndex={cardIndex} />
-            <Icon onClick={() => {
+            <BackgroundMovie cardIndex={index}></BackgroundMovie>
+            <MovieList movies={movies} cardIndex={index} />
+            {/* <Icon onClick={() => {
                 if (cardIndex < movies.length - 1) setCardIndex(prevIndex => prevIndex + 1);
-            }}></Icon>
+            }}></Icon> */}
 
             {/* <button onClick={() => {addLove(access_token);}}>假裝</button> */}
         </>

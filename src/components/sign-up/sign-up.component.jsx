@@ -10,12 +10,14 @@ const SignUpComponent = (props) => {
         "pattern": "Entered value does not match email format",
         "minLength": "Password should be at least 8 characters"
     };
-    const signUpHandler = () => {
+    const signUpHandler = (data) => {
+        const {signUpName, signUpEmail, signUpPassword} = data;
         fetch('/api/signup', {
             method: "POST",
             body: JSON.stringify({
-                'username': 'leodddd',
-                "password": 'test'
+                'username': signUpName,
+                'email': signUpEmail,
+                "password": signUpPassword
             }),
             headers: new Headers({
                 "Content-Type": "application/json",

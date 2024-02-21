@@ -1,25 +1,28 @@
 import {tokenAction} from "./token.type";
 import {getCookie} from "../../utils/cookie/cookie.util";
-import {useNavigate} from "react-router-dom";
-
 
 export const loginStart = () => {
     return {type: tokenAction.FETCH_TOKEN_START};
 };
 
-export const loginSuccess = () => {
+export const loginSuccess = (data) => {
     const payload = {
         'login': true,
+        'username': data.username,
+        'email': data.email,
+        'favorite': data.favorite,
         'access_token': getCookie('csrf_access_token'),
         'refresh_token': getCookie('csrf_refresh_token')
     };
-
     return {type: tokenAction.FETCH_TOKEN_SUCCESS, payload: payload};
 };
 
 export const loginFail = () => {
     const payload = {
         'login': false,
+        'username': '',
+        'email': '',
+        'favorite': [],
         'access_token': null,
         'refresh_token': null
     };
@@ -29,6 +32,9 @@ export const loginFail = () => {
 export const logoutSuccess = () => {
     const payload = {
         'login': false,
+        'username': '',
+        'email': '',
+        'favorite': [],
         'access_token': null,
         'refresh_token': null
     };
@@ -39,26 +45,33 @@ export const logoutFail = () => {
     return {type: tokenAction.LOGOUTFAILED};
 };
 
-export const loginAsync = () => (dispatch) => {
+export const loginAsync = (data) => async (dispatch) => {
+    const {signInEmail, signInPassword} = data;
+
     dispatch(loginStart());
 
-    try {
-        fetch('/api/login', {
-            method: "POST",
-            body: JSON.stringify({
-                'username': 'lewo',
-                "password": 'test'
-            }),
-            headers: new Headers({
-                "Content-Type": "application/json",
-            }),
-        })
-            .then((response) => response.json())
-            .then((res) => {
-                dispatch(loginSuccess());
-            });
-    } catch {
-        dispatch(loginFail());
+    const login = await fetch('/api/login', {
+        method: "POST",
+        body: JSON.stringify({
+            'email': signInEmail,
+            "password": signInPassword
+        }),
+        headers: new Headers({
+            "Content-Type": "application/json",
+        }),
+    });
+
+    const res = await login.json();
+
+    switch (res['msg']) {
+        case "successful":
+            dispatch(loginSuccess(res['data']));
+            return true;
+        case "Wrong email or password":
+            dispatch(loginFail());
+            return false;
+        default:
+            return false;
     }
 };
 
@@ -71,7 +84,7 @@ export const logoutAsync = () => async (dispatch) => {
     }
 };
 
-export const refreshTokenAsync = () => async (dispatch) => {
+export const refreshTokenAsync = (currentUser) => async (dispatch) => {
     const respone = await fetch('/api/refresh', {
         method: "POST",
         headers: {
@@ -80,8 +93,7 @@ export const refreshTokenAsync = () => async (dispatch) => {
     });
 
     if (respone.status === 200) {
-        dispatch(loginSuccess());
-        return {'res': 'success', 'token': getCookie('csrf_access_token')};
+        dispatch(loginSuccess(currentUser));
     } else if (respone.status === 401) {
         dispatch(loginFail());
     }

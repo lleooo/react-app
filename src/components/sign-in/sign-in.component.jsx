@@ -5,18 +5,22 @@ import {
     FormContainer,
     FormTitle
 } from "../../routes/auth/auth.style";
+import {useNavigate} from "react-router-dom";
 
 
 
 const SignInComponent = (props) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const errorText = {
         "required": 'This field is required',
         "pattern": "Entered value does not match email format"
     };
 
-    const loginClickHandler = () => {
-        dispatch(loginAsync());
+    const loginClickHandler = (data) => {
+        dispatch(loginAsync(data)).then((loginSuccess) => {
+            if (loginSuccess) navigate('/home');
+        });
     };
     return (
         <FormContainer className={props.className}>

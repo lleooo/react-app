@@ -9,7 +9,6 @@ const InputContainer = styled.div`
   width: 100%;
   max-width: 45px;
   height: 45px;
-  margin: 0 50px;
   background-color: #fff;
   border-radius: 6px;
   transition: all 0.5s ease-in-out;
@@ -61,8 +60,8 @@ const InputBox = ({onChange, onKeyDown, suggestion, searchTerm}) => {
 
   return (
     <>
-      <InputContainer className={isExpanded ? "open" : ""} >
-        <Input className={isExpanded ? "open" : ""} onChange={onChange} onKeyDown={onKeyDown} type="text" placeholder="Search..."></Input>
+      <InputContainer className={isExpanded ? "open" : "open"} >
+        <Input className={isExpanded ? "open" : "open"} onChange={onChange} onKeyDown={onKeyDown} type="text" placeholder="Search..."></Input>
         <Search onClick={() => toggleSearchBox()}>
           <i style={{height: "20px"}}><IoSearch style={{fontSize: '20px'}} /></i>
         </Search>

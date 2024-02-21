@@ -14,10 +14,10 @@ export const fetchMonsterFailed = () => {
 };
 
 export const getMonsterAsync = () => (dispatch) => {
-    dispatch(fetchMonsterStart());
+    // dispatch(fetchMonsterStart());
 
     try {
-        fetch('https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=zh-TW')
+        fetch('https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=EN')
             .then((response) => response.json())
             .then((monster) => {
                 dispatch(fetchMonsterSuccess(monster));

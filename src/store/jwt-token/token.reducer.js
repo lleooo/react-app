@@ -2,8 +2,9 @@ import {tokenAction} from "./token.type";
 import {getCookie} from "../../utils/cookie/cookie.util";
 
 const USER_INIT_STATE = {
-    // getCookie('csrf_access_token') ? true : false
-    'login': false,
+    'login': getCookie('csrf_access_token') ? true : false,
+    'username': '',
+    'email': '',
     'access_token': getCookie('csrf_access_token'),
     'refresh_token': getCookie('csrf_refresh_token')
 };

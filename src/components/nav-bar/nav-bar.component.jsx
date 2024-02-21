@@ -5,11 +5,13 @@ import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useState, useRef, useEffect} from 'react';
 import {fetchSearchMovie} from '../../utils/tmdb/tmdb.utils';
+import UserProfile from '../user-profile/user-profile.component';
 
 
 const NavContainer = styled.div`
   display:flex;
   width:100%;
+  height:8%;
   background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 83%);
   position:fixed;
   z-index:1;
@@ -106,7 +108,12 @@ const NavBar = () => {
         <div style={{
           position: 'absolute',
           right: '0',
-          top: '.5rem'
+          background: 'red',
+          width: '30%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-evenly'
         }}>
           <InputBox
             onChange={e => handleChange(e)}
@@ -114,6 +121,7 @@ const NavBar = () => {
             suggestion={suggestion}
             searchTerm={searchTerm}
           ></InputBox >
+          <UserProfile></UserProfile>
         </div>
       </NavContainer >
       <Outlet />

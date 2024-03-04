@@ -19,7 +19,7 @@ const SignInComponent = (props) => {
 
     const loginClickHandler = (data) => {
         dispatch(loginAsync(data)).then((loginSuccess) => {
-            if (loginSuccess) navigate('/home');
+            if (loginSuccess) navigate('/movies/popular');
         });
     };
     return (

@@ -100,9 +100,9 @@ const NavBar = () => {
         </Nav>
         <NavElement>
           <Nav>
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/loves'>loves</NavLink>
-            <NavLink to='/login'>login</NavLink>
+            <NavLink to='/movies'>Home</NavLink>
+            <NavLink to='/movies/popular'>Popular</NavLink>
+            <NavLink to='/movies/loves'>loves</NavLink>
           </Nav>
         </NavElement>
         <div style={{

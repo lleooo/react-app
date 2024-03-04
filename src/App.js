@@ -39,11 +39,10 @@ function App() {
       <GlobalStyle></GlobalStyle>
       <Routes>
         <Route path='/' element={<NavBar />}>
-          <Route path='home' element={<PrivateRouteComponent Component={Home} />} />
-          <Route path='loves' element={<PrivateRouteComponent Component={Loves} />} />
-          <Route path='search' element={<Search />} />
+          <Route path='movies/popular' element={<PrivateRouteComponent Component={Home} />} />
+          <Route path='movies/loves' element={<PrivateRouteComponent Component={Loves} />} />
           <Route index element={<Auth />}></Route>
-          <Route path='movieDatil' element={<Detail />} />
+          <Route path='/movies/:id' element={<Detail />} />
         </Route>
       </Routes>
     </div>

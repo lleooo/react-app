@@ -4,5 +4,8 @@ export const tokenAction = {
     'FETCH_TOKEN_FAILED': 'fetch_token_failed',
 
     'LOGOUTFAILED': 'logout_failed',
-    'LOGOUTSUCCESS': 'logout_success'
+    'LOGOUTSUCCESS': 'logout_success',
+
+    'MODIFY_FAVORITE_SUCCESS': 'modify_favorite_success',
+    'MODIFY_FAVORITE_FAILED': 'modify_favorite_failed',
 };

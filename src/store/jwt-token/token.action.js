@@ -45,6 +45,14 @@ export const logoutFail = () => {
     return {type: tokenAction.LOGOUTFAILED};
 };
 
+export const addFavoriteSuccess = (user) => {
+    return {type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: user};
+};
+
+export const removeFavoriteSuccess = (user) => {
+    return {type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: user};
+};
+
 export const loginAsync = (data) => async (dispatch) => {
     const {signInEmail, signInPassword} = data;
 

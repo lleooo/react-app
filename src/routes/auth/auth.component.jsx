@@ -17,10 +17,6 @@ const Auth = () => {
     const dispatch = useDispatch();
     const [toggle, setToggle] = useState(false);
 
-    const logoutClickHandler = () => {
-        dispatch(logoutAsync());
-    };
-
     const toggleHandler = () => {
         setToggle(!toggle);
     };

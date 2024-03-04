@@ -23,6 +23,9 @@ const MovieList = ({movies}) => {
     const {index} = useSelector(state => state.background);
     const dispatch = useDispatch();
     const translateVal = (index - 1) * -4;//todo:get card element width
+    const style1 = {
+        width: '4%'
+    };
 
     const handleClick = (e) => {
         // console.log(e);
@@ -37,10 +40,10 @@ const MovieList = ({movies}) => {
             <List style={{transform: `translateX(${translateVal}%)`}} onClick={(w) => {handleClick(w);}}>
                 {movies.map((movie, idx) => {
                     let activeCard = idx === index ? true : false;
-                    return <MovieCard key={movie.id} detail={movie} activeCard={activeCard} clickEvent={() => {movieClick(idx);}}></MovieCard>;
+                    return <MovieCard key={movie.id} detail={movie} activeCard={activeCard} clickEvent={() => {movieClick(idx);}} style={style1}></MovieCard>;
                 })}
             </List>
-        </ListContainer>
+        </ListContainer >
     );
 };
 

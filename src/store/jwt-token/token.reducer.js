@@ -14,10 +14,12 @@ export const tokenReducer = (state = USER_INIT_STATE, action) => {
         case tokenAction.FETCH_TOKEN_SUCCESS:
         case tokenAction.LOGOUTSUCCESS:
         case tokenAction.FETCH_TOKEN_FAILED:
+        case tokenAction.MODIFY_FAVORITE_SUCCESS:
             return action.payload;
         case tokenAction.LOGOUTFAILED:
         case tokenAction.FETCH_TOKEN_START:
             return state;
+
         default:
             return state;
     }

@@ -9,7 +9,7 @@ const PrivateRouteComponent = (props) => {
 
     useEffect(() => {
         const verifyToken = async () => {
-            const checkToken = await fetch('api/verify-token', {method: "GET"});
+            const checkToken = await fetch('/api/verify-token', {method: "GET"});
             const {msg} = await checkToken.json();
 
             switch (msg) {

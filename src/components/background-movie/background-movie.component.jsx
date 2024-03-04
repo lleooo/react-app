@@ -152,7 +152,7 @@ const BackgroundMovie = ({cardIndex}) => {
     }
 
     const addFavorite = async (movieID) => {
-        const res = await fetch('api/addFavorite', {
+        const res = await fetch('/api/addFavorite', {
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': user.access_token,

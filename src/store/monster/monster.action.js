@@ -5,24 +5,24 @@ export const fetchMonsterStart = () => {
     return {type: monsterAction.FETCH_MONSTER_START};
 };
 
-export const fetchMonsterSuccess = (monster) => {
+export const fetchMovieSuccess = (monster) => {
     return {type: monsterAction.FETCH_MONSTER_SUCCESS, payload: monster};
 };
 
-export const fetchMonsterFailed = () => {
+export const fetchMovieFailed = () => {
     return {type: monsterAction.FETCH_MONSTER_FAILED};
 };
 
-export const getMonsterAsync = () => (dispatch) => {
+export const getMovieAsync = () => (dispatch) => {
     // dispatch(fetchMonsterStart());
 
     try {
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=EN')
             .then((response) => response.json())
             .then((monster) => {
-                dispatch(fetchMonsterSuccess(monster));
+                dispatch(fetchMovieSuccess(monster));
             });
     } catch {
-        dispatch(fetchMonsterFailed());
+        dispatch(fetchMovieFailed());
     }
 };

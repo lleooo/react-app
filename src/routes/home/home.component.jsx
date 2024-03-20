@@ -1,45 +1,48 @@
-import styled from "styled-components";
-import {SlArrowRightCircle} from "react-icons/sl";
-import MovieList from "../../components/movie-list/movie-list.component";
-import {useState, useEffect, useRef} from "react";
-import {useNavigate} from "react-router-dom";
-
-import {fetchSearchMovie} from "../../utils/tmdb/tmdb.utils";
-import {useDispatch, useSelector} from "react-redux";
-import {refreshTokenAsync} from "../../store/jwt-token/token.action";
-import BackgroundMovie from "../../components/background-movie/background-movie.component";
-
-import {getMonsterAsync} from "../../store/monster/monster.action";
-
-const Icon = styled(SlArrowRightCircle)`
-    position:absolute;
-    top:50%;
-    transform:translate(0%,-50%);
-    right:0;
-    font-size:40px;
-    
-    &:hover{
-        color:red;
-    }
-`;
+import {useCallback, useEffect, useRef, useState} from "react";
+import MovieCardList from "../../components/movie-card-list/movie-card-list.component";
 
 const Home = () => {
-    const {index} = useSelector(state => state.background);
-    const dispatch = useDispatch();
-    const movies = useSelector(state => state.monster);
-    useEffect(() => {
-        dispatch(getMonsterAsync());
-    }, []);
-    return (
-        <>
-            <BackgroundMovie cardIndex={index}></BackgroundMovie>
-            <MovieList movies={movies} cardIndex={index} />
-            {/* <Icon onClick={() => {
-                if (cardIndex < movies.length - 1) setCardIndex(prevIndex => prevIndex + 1);
-            }}></Icon> */}
+    const [page, setPage] = useState(1);
+    const [movies, setMovies] = useState([]);
+    const isLoading = useRef(false);
 
-            {/* <button onClick={() => {addLove(access_token);}}>假裝</button> */}
-        </>
+    //add useCallback to prevent handleScroll re-create while Home re-render
+    const handleScroll = useCallback(() => {
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+        const bodyHeight = document.body.offsetHeight;
+        if (windowHeight + scrollY + 1 >= bodyHeight) {
+            if (!isLoading.current) setPage((pre) => pre + 1);
+        }
+    }, []);
+
+    const fetchMovies = async (page) => {
+        isLoading.current = true;
+        try {
+            const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=EN&page=${page}`);
+            const movies = await res.json();
+
+            setMovies((pre) => [...pre, ...movies.results]);
+            isLoading.current = false;
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchMovies(page);
+    }, [page]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
+
+    return (
+        <MovieCardList movies={movies} isLazyload={true} />
     );
 };
 

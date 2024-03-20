@@ -1,109 +1,128 @@
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {loginFail, loginSuccess, refreshTokenAsync, removeFavoriteSuccess} from "../../store/jwt-token/token.action";
-import {useNavigate} from "react-router-dom";
-import {IoCloseSharp} from "react-icons/io5";
 
-import MovieCard from "../../components/movie-card/moive-card.component";
-import styled from "styled-components";
+import React from "react";
+// import {useEffect, useState} from "react";
+// import {useDispatch, useSelector}from "react-redux";
+// import store from "../../store/store";
+import {connect} from "react-redux";
+import MovieCardList from "../../components/movie-card-list/movie-card-list.component";
 
 
-const FavoriteContainer = styled.div`
-    width:100%;
-    display:flex;
-    justify-content:center;
-`;
+class Loves extends React.Component {
 
-const Loves = (movies) => {
-    console.log('render');
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
-    const [favoriteMovies, setFavoriteMovies] = useState([]);
+    constructor(props) {
+        super(props);
+        this.state = {
+            favoriteMovies: [],
+            finishFetch: false
+        };
+    }
 
-    // useEffect(() => {
-    //     const request = fetch('/api/getlove', {
-    //         method: "GET",
-    //         headers: {
-    //             'Authorization': `Bearer ${access_token}`,
-    //             'Content-Type': 'application/json', // 根据请求的内容类型添加其他头部
-    //         },
-    //     });
-
-    //     request.then(response => {
-    //         return response.json();
-    //     }).then((res) => {
-    //         if (res.msg === 'success') {
-    //             setFavoriteMovies(res.favorite);
-    //         } else if (res.msg === 'expired') {
-    //             dispatch(refreshTokenAsync()).then((res) => {
-    //                 if (res === 'fail') navigate('/login');
-    //             });
-    //         }
-    //     });
-    // }, []);
-
-    useEffect(() => {
-        const response = user.favorite.map(async (id) => {
+    //only called once
+    componentDidMount() {
+        const {favorite} = this.props;
+        const favoriteData = favorite.map(async (id) => {
             const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US`);
-            const data = await res.json();
-            return data;
+            const movieData = await res.json();
+            return movieData;
         });
 
-        Promise.all(response).then(data => {
-            setFavoriteMovies(data);
+        Promise.all(favoriteData).then((movieData) => {
+            this.setState({favoriteMovies: [...movieData]});
+            setTimeout(() => {
+                this.setState({finishFetch: true});
+            }, 500);
         });
-    }, []);
+    }
 
-
-    const removeFavorite = async (id) => {
-        const res = await fetch('/api/removeFavorite', {
-            method: "DELETE",
-            headers: {
-                'X-CSRF-TOKEN': user.access_token,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'username': user.username,
-                'movieID': id
-            })
-        });
-        const rmFavoriteRes = await res.json();
-
-        switch (rmFavoriteRes.msg) {
-            case "success":
-                dispatch(removeFavoriteSuccess({...user, 'favorite': rmFavoriteRes.data}));
-                setFavoriteMovies((preFavorite) => preFavorite.filter(movie => movie.id !== id));
-                break;
-            case "access expired":
-                // dispatch(refreshTokenAsync(user));
-                break;
-            default:
-                break;
+    //mange logic in componentDidUpdate
+    //should usually be wrapped in conditions to avoid creating infinite loops
+    componentDidUpdate(prevProps) {
+        if (prevProps.favorite.length !== this.props.favorite.length) {
+            const newFavoriteArr = this.state.favoriteMovies.filter(movie => {
+                return this.props.favorite.includes(movie.id);
+            });
+            this.setState({favoriteMovies: [...newFavoriteArr]});
         }
+    }
+
+    removeFavorite(id) {
+        this.props.removeFavoriteMovie(id);
+    }
+
+    render() {
+        const {favoriteMovies, finishFetch} = this.state;
+
+        return finishFetch ? (<MovieCardList movies={favoriteMovies} />) : (<MovieCardList showSkeleton={true} ></MovieCardList>);
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        'favorite': state.user.favorite
     };
-
-
-    return (
-        <FavoriteContainer>
-            <div style={{
-                marginTop: '15rem',
-                background: 'red',
-                width: '90%',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center'
-            }}>
-                {favoriteMovies.map((movie) => {
-                    return <div key={movie.id} style={{position: 'relative'}}>
-                        <IoCloseSharp style={{fontSize: '3rem', position: 'absolute', left: '', color: "red", zIndex: '1'}} onClick={() => {removeFavorite(movie.id);}} />
-                        <MovieCard detail={movie} activeCard={false} clickEvent={() => {console.log('love');}}></MovieCard>
-                    </div>;
-
-                })}
-            </div>
-        </FavoriteContainer>
-    );
 };
 
-export default Loves;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removeFavoriteMovie: (id) => dispatch({type: 'REMOVE_FAVORITE_MOVIE', payload: id}),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Loves);
+
+// ================= Loves component create by function ================= //
+//Loves component create by function
+
+// const Loves = () => {
+//     const dispatch = useDispatch();
+//     const user = useSelector(state => state.user);
+//     const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+//     useEffect(() => {
+//         const response = user.favorite.map(async (id) => {
+//             const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US`);
+//             const data = await res.json();
+//             return data;
+//         });
+
+//         Promise.all(response).then(data => {
+//             setFavoriteMovies(data);
+//         });
+//     }, [user]);
+
+
+//     const removeFavorite = async (id) => {
+//         dispatch({type: 'REMOVE_FAVORITE_MOVIE', payload: id});
+//     };
+
+
+//     return (
+//         <FavoriteContainer>
+//             <div style={{
+//                 marginTop: '15rem',
+//                 background: 'red',
+//                 width: '90%',
+//                 position: 'relative',
+//                 display: 'flex',
+//                 justifyContent: 'center'
+//             }}>
+//                 {favoriteMovies.map((movie) => {
+//                     return <div key={movie.id} style={{position: 'relative'}}>
+//                         <IoCloseSharp style={{fontSize: '3rem', position: 'absolute', left: '', color: "red", zIndex: '1'}} onClick={() => {removeFavorite(movie.id);}} />
+//                         <MovieCard detail={movie} activeCard={false} clickEvent={() => {console.log('love');}}></MovieCard>
+//                     </div>;
+
+//                 })}
+//             </div>
+//         </FavoriteContainer>
+//     );
+// };
+
+// export default Loves;
+// ================= Loves component create by function (end) ================= //
+
+
+// ==== redux with class component ====//
+//https://ithelp.ithome.com.tw/articles/10187762
+
+

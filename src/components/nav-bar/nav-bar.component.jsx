@@ -93,41 +93,39 @@ const NavBar = () => {
 
 
   return (
-    <>
-      <NavContainer>
-        <Nav>
-          logo
-        </Nav>
-        <NavElement>
-          <Nav>
-            <NavLink to='/movies'>Home</NavLink>
-            <NavLink to='/movies/popular'>Popular</NavLink>
-            <NavLink to='/movies/loves'>loves</NavLink>
-          </Nav>
-        </NavElement>
-        <div style={{
-          position: 'absolute',
-          right: '0',
-          background: 'red',
-          width: '30%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-evenly'
-        }}>
-          <InputBox
-            onChange={e => handleChange(e)}
-            onKeyDown={e => handleKeyDown(e)}
-            suggestion={suggestion}
-            searchTerm={searchTerm}
-          ></InputBox >
-          <UserProfile></UserProfile>
-        </div>
-      </NavContainer >
-      <Outlet />
-    </>
-
-
+    <><Outlet></Outlet></>
+    // <>
+    //   <NavContainer>
+    //     <Nav>
+    //       logo
+    //     </Nav>
+    //     <NavElement>
+    //       <Nav>
+    //         <NavLink to='/movies'>Home</NavLink>
+    //         <NavLink to='/movies/popular'>Popular</NavLink>
+    //         <NavLink to='/movies/loves'>loves</NavLink>
+    //       </Nav>
+    //     </NavElement>
+    //     <div style={{
+    //       position: 'absolute',
+    //       right: '0',
+    //       width: '30%',
+    //       height: '100%',
+    //       display: 'flex',
+    //       alignItems: 'center',
+    //       justifyContent: 'space-evenly'
+    //     }}>
+    //       <InputBox
+    //         onChange={e => handleChange(e)}
+    //         onKeyDown={e => handleKeyDown(e)}
+    //         suggestion={suggestion}
+    //         searchTerm={searchTerm}
+    //       ></InputBox >
+    //       <UserProfile></UserProfile>
+    //     </div>
+    //   </NavContainer >
+    //   <Outlet />
+    // </>
   );
 };
 

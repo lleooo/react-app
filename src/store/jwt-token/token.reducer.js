@@ -6,7 +6,8 @@ const USER_INIT_STATE = {
     'username': '',
     'email': '',
     'access_token': getCookie('csrf_access_token'),
-    'refresh_token': getCookie('csrf_refresh_token')
+    'refresh_token': getCookie('csrf_refresh_token'),
+    'favorite': []
 };
 
 export const tokenReducer = (state = USER_INIT_STATE, action) => {
@@ -14,8 +15,18 @@ export const tokenReducer = (state = USER_INIT_STATE, action) => {
         case tokenAction.FETCH_TOKEN_SUCCESS:
         case tokenAction.LOGOUTSUCCESS:
         case tokenAction.FETCH_TOKEN_FAILED:
-        case tokenAction.MODIFY_FAVORITE_SUCCESS:
             return action.payload;
+        case tokenAction.REFRESH_TOKEN_SUCCESS:
+            return {
+                ...state,
+                'access_token': action.payload.access_token,
+                'refresh_token': action.payload.refresh_token
+            };
+        case tokenAction.MODIFY_FAVORITE_SUCCESS:
+            return {
+                ...state,
+                'favorite': [...action.payload.favorite] // 假设有效载荷中包含了favorite数据
+            };
         case tokenAction.LOGOUTFAILED:
         case tokenAction.FETCH_TOKEN_START:
             return state;

@@ -45,6 +45,14 @@ export const logoutFail = () => {
     return {type: tokenAction.LOGOUTFAILED};
 };
 
+export const refreshTokenSuccess = () => {
+    const payload = {
+        'access_token': getCookie('csrf_access_token'),
+        'refresh_token': getCookie('csrf_refresh_token')
+    };
+    return {type: tokenAction.REFRESH_TOKEN_SUCCESS, payload: payload};
+};
+
 export const addFavoriteSuccess = (user) => {
     return {type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: user};
 };

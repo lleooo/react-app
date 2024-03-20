@@ -1,15 +1,11 @@
-import {useDispatch, useSelector} from 'react-redux';
 import {createGlobalStyle} from 'styled-components';
 
-
-import {getMonsterAsync} from './store/monster/monster.action';
 import NavBar from './components/nav-bar/nav-bar.component';
 import {Route, Routes, useNavigate} from 'react-router-dom';
-import {useEffect} from 'react';
+import Popular from './routes/popular/popular.component';
 import Home from './routes/home/home.component';
 import Loves from './routes/loves/love.component';
 import Detail from './routes/movie-detail/moive-detail.component';
-import Search from './routes/search/search.component';
 import Auth from './routes/auth/auth.component';
 import PrivateRouteComponent from './routes/private-route/private-route.component';
 
@@ -39,7 +35,8 @@ function App() {
       <GlobalStyle></GlobalStyle>
       <Routes>
         <Route path='/' element={<NavBar />}>
-          <Route path='movies/popular' element={<PrivateRouteComponent Component={Home} />} />
+          <Route path='movies' element={<PrivateRouteComponent Component={Home} />} />
+          <Route path='movies/popular' element={<PrivateRouteComponent Component={Popular} />} />
           <Route path='movies/loves' element={<PrivateRouteComponent Component={Loves} />} />
           <Route index element={<Auth />}></Route>
           <Route path='/movies/:id' element={<Detail />} />

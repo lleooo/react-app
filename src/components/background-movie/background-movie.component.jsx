@@ -131,16 +131,13 @@ const BackgroundMovie = ({cardIndex}) => {
 
     if (movies[cardIndex]) {
         const point = movies[cardIndex].vote_average / 2;
-
         for (let i = 0; i < Math.floor(point); i++) {
             stars.push('full');
         }
 
         if (point % 1 > 0) stars.push('half');
 
-        for (let j = 0; j <= Math.ceil(5 - stars.length); j++) {
-            stars.push('empty');
-        }
+        while (stars.length < 5) stars.push('empty');
     }
 
     if (movies[cardIndex]) {
@@ -152,42 +149,32 @@ const BackgroundMovie = ({cardIndex}) => {
     }
 
     const addFavorite = async (movieID) => {
-        const res = await fetch('/api/addFavorite', {
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': user.access_token,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'username': user.username,
-                'movieID': movieID
-            })
-        });
-        const addFavoriteRes = await res.json();
+        dispatch({type: "ADD_FAVORITE_MOVIE", payload: movieID});
+        // const res = await fetch('/api/addFavorite', {
+        //     method: "POST",
+        //     headers: {
+        //         'X-CSRF-TOKEN': user.access_token,
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         'username': user.username,
+        //         'movieID': movieID
+        //     })
+        // });
+        // const addFavoriteRes = await res.json();
 
-        switch (addFavoriteRes.msg) {
-            case "successful":
-                dispatch(loginSuccess(addFavoriteRes.data));
-                break;
-            case "access expired":
-                dispatch(refreshTokenAsync(user));
-                break;
-            default:
-                break;
-        }
+        // switch (addFavoriteRes.msg) {
+        //     case "successful":
+        //         dispatch(loginSuccess(addFavoriteRes.data));
+        //         break;
+        //     case "access expired":
+        //         dispatch(refreshTokenAsync(user));
+        //         break;
+        //     default:
+        //         break;
+        // }
 
     };
-    // addResp.then(async (res) => await res.json()).then(({msg}) => {
-    //     if (msg === 'success') {
-    //         console.log('新增成功');
-    //     } else if (msg === 'access expired') {
-    //         dispatch(refreshTokenAsync()).then((res) => {
-    //         });
-    //     } else {
-
-    //     }
-    // });
-
     return (
         <MovieContainer>
             {movies[cardIndex] &&
@@ -217,7 +204,7 @@ const BackgroundMovie = ({cardIndex}) => {
                             })}
                         </MovieTypeWrapper>
                         <MovieBtnWrapper>
-                            <button className="btn detailBtn" >Detail</button>
+                            <button className="btn detailBtn">Detail</button>
                             <button className="btn loveBtn" onClick={() => addFavorite(movies[cardIndex].id)}>+</button>
                         </MovieBtnWrapper>
                         <MovieOutLine>{movies[cardIndex].overview}</MovieOutLine>

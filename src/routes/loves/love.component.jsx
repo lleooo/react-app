@@ -1,4 +1,3 @@
-
 import React from "react";
 // import {useEffect, useState} from "react";
 // import {useDispatch, useSelector}from "react-redux";
@@ -6,66 +5,66 @@ import React from "react";
 import {connect} from "react-redux";
 import MovieCardList from "../../components/movie-card-list/movie-card-list.component";
 
-
 class Loves extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      favoriteMovies: [],
+      finishFetch: false,
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            favoriteMovies: [],
-            finishFetch: false
-        };
+  //only called once
+  componentDidMount() {
+    const {favorite} = this.props;
+
+    const favoriteData = favorite.map(async (id) => {
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US`);
+      const movieData = await res.json();
+      return movieData;
+    });
+
+    Promise.all(favoriteData).then((movieData) => {
+      this.setState({favoriteMovies: [...movieData]});
+      setTimeout(() => {
+        this.setState({finishFetch: true});
+      }, 500);
+    });
+  }
+
+  //manage logic in componentDidUpdate
+  //should usually be wrapped in conditions to avoid creating infinite loops
+  componentDidUpdate(prevProps) {
+    if (prevProps.favorite.length !== this.props.favorite.length) {
+      const newFavoriteArr = this.state.favoriteMovies.filter((movie) => {
+        return this.props.favorite.includes(movie.id);
+      });
+      this.setState({favoriteMovies: [...newFavoriteArr]});
     }
+  }
 
-    //only called once
-    componentDidMount() {
-        const {favorite} = this.props;
-        const favoriteData = favorite.map(async (id) => {
-            const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US`);
-            const movieData = await res.json();
-            return movieData;
-        });
+  removeFavorite(id) {
 
-        Promise.all(favoriteData).then((movieData) => {
-            this.setState({favoriteMovies: [...movieData]});
-            setTimeout(() => {
-                this.setState({finishFetch: true});
-            }, 500);
-        });
-    }
+    this.props.removeFavoriteMovie(id);
+  }
 
-    //mange logic in componentDidUpdate
-    //should usually be wrapped in conditions to avoid creating infinite loops
-    componentDidUpdate(prevProps) {
-        if (prevProps.favorite.length !== this.props.favorite.length) {
-            const newFavoriteArr = this.state.favoriteMovies.filter(movie => {
-                return this.props.favorite.includes(movie.id);
-            });
-            this.setState({favoriteMovies: [...newFavoriteArr]});
-        }
-    }
+  render() {
+    const {favoriteMovies, finishFetch} = this.state;
 
-    removeFavorite(id) {
-        this.props.removeFavoriteMovie(id);
-    }
-
-    render() {
-        const {favoriteMovies, finishFetch} = this.state;
-
-        return finishFetch ? (<MovieCardList movies={favoriteMovies} />) : (<MovieCardList showSkeleton={true} ></MovieCardList>);
-    }
+    return finishFetch ? <MovieCardList movies={favoriteMovies} buttonType={'love'} /> : <MovieCardList showSkeleton={true} buttonType={'love'} />;
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        'favorite': state.user.favorite
-    };
+  return {
+    favorite: state.user.favorite,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        removeFavoriteMovie: (id) => dispatch({type: 'REMOVE_FAVORITE_MOVIE', payload: id}),
-    };
+  return {
+    removeFavoriteMovie: (id) => dispatch({type: "REMOVE_FAVORITE_MOVIE", payload: id}),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loves);
@@ -90,11 +89,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(Loves);
 //         });
 //     }, [user]);
 
-
 //     const removeFavorite = async (id) => {
 //         dispatch({type: 'REMOVE_FAVORITE_MOVIE', payload: id});
 //     };
-
 
 //     return (
 //         <FavoriteContainer>
@@ -121,8 +118,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Loves);
 // export default Loves;
 // ================= Loves component create by function (end) ================= //
 
-
 // ==== redux with class component ====//
 //https://ithelp.ithome.com.tw/articles/10187762
-
-

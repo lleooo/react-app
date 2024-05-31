@@ -1,8 +1,8 @@
 import {all, takeEvery} from 'redux-saga/effects';
 
-import {addFavoriteMovieSaga} from './jwt-token/user.saga';
-import {removeFavoriteMovieSaga} from './jwt-token/user.saga';
-import {refreshTokenSaga} from './jwt-token/user.saga';
+// import {addFavoriteMovieSaga} from './jwt-token/user.saga';
+// import {removeFavoriteMovieSaga} from './jwt-token/user.saga';
+// import {refreshTokenSaga} from './jwt-token/user.saga';
 
 import {watchRemoveFavoriteMovie} from './jwt-token/user.saga';
 import {watchRefreshToken} from './jwt-token/user.saga';

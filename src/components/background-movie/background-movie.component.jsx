@@ -3,9 +3,11 @@ import styled from "styled-components";
 import {BsStar} from "react-icons/bs";
 import {BsStarFill} from "react-icons/bs";
 import {BsStarHalf} from "react-icons/bs";
+import {HiCheck, HiX} from "react-icons/hi";
 import {movieType} from "../../utils/tmdb/tmdb.utils";
 import {loginSuccess, refreshTokenAsync} from "../../store/jwt-token/token.action";
-
+import {Button, Toast} from "flowbite-react";
+import {useNavigate} from "react-router-dom";
 
 const MovieContainer = styled.div`
     position:relative;
@@ -17,8 +19,9 @@ const MovieContainer = styled.div`
 const MovieImg = styled.img`
     position:absolute;
     top:0;
-    left:15%;
-    width:90%
+    left:5%;
+    width:100%;
+    /* height: 100%; */
 `;
 const Mask = styled.div`
     position:absolute;
@@ -31,7 +34,8 @@ const Mask = styled.div`
 
 const BottomMask = styled.div`
     position:absolute;
-    bottom:0;
+    bottom:0%;
+    /* bottom: 60%; */
     width:100%;
     height:20%;
     background: rgb(0,0,0);
@@ -52,7 +56,7 @@ const BackgroundMovieContent = styled.div`
     display:flex;
     flex-direction:column;
 
-    font-size:16px
+    font-size:16px;
 `;
 
 const MovieTitle = styled.div`
@@ -86,34 +90,6 @@ const MovieType = styled.div`
     border-right: 1px solid;
     padding-right: 10px;
 `;
-const MovieBtnWrapper = styled.div`
-    height:15%;
-    .btn {
-        color: white;
-        padding: .75rem 2.5rem;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        font-weight: bold;
-        font-size: 1.2rem;
-        margin-top: 1rem;
-    }
-    .detailBtn{
-        background-color: #4CAF50;
-        margin-right:1.5rem;
-        &:hover{
-            background-color: #60c365;
-        }
-    }
-    .loveBtn{
-        background: linear-gradient(to right, #FF416C, #FF4B2B);
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 10px;
-        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
-    }
-`;
 const MovieOutLine = styled.div`
     height:50%; 
     font-family:'body';
@@ -124,7 +100,8 @@ const MovieOutLine = styled.div`
 
 const BackgroundMovie = ({cardIndex}) => {
     const movies = useSelector(state => state.monster);
-    const user = useSelector(state => state.user);
+    const toast = useSelector(state => state.toast);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const stars = [];
     let backgroundTitleFontSize = "";
@@ -150,71 +127,63 @@ const BackgroundMovie = ({cardIndex}) => {
 
     const addFavorite = async (movieID) => {
         dispatch({type: "ADD_FAVORITE_MOVIE", payload: movieID});
-        // const res = await fetch('/api/addFavorite', {
-        //     method: "POST",
-        //     headers: {
-        //         'X-CSRF-TOKEN': user.access_token,
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         'username': user.username,
-        //         'movieID': movieID
-        //     })
-        // });
-        // const addFavoriteRes = await res.json();
-
-        // switch (addFavoriteRes.msg) {
-        //     case "successful":
-        //         dispatch(loginSuccess(addFavoriteRes.data));
-        //         break;
-        //     case "access expired":
-        //         dispatch(refreshTokenAsync(user));
-        //         break;
-        //     default:
-        //         break;
-        // }
-
     };
     return (
-        <MovieContainer>
-            {movies[cardIndex] &&
-                <div>
-                    <MovieImg
-                        alt={`background`}
-                        //w92、w154、w185、w342、w500、w780、w1280
-                        src={`https://image.tmdb.org/t/p/w1280/${movies[cardIndex].backdrop_path}`}
-                    />
-                    <BackgroundMovieContent>
-                        <MovieTitle style={{fontSize: backgroundTitleFontSize}}>{movies[cardIndex].title}</MovieTitle>
-                        <MovieInfoWrapper>
-                            {stars.map((star, idx) => {
-                                switch (star) {
-                                    case 'full':
-                                        return <BsStarFill key={idx} />;
-                                    case 'half':
-                                        return <BsStarHalf key={idx} />;
-                                    default:
-                                        return <BsStar key={idx} />;
-                                }
-                            })}
-                        </MovieInfoWrapper>
-                        <MovieTypeWrapper>
-                            {movies[cardIndex].genre_ids.map((typeID, idx) => {
-                                return <MovieType key={idx}>{movieType.get(typeID)}</MovieType>;
-                            })}
-                        </MovieTypeWrapper>
-                        <MovieBtnWrapper>
-                            <button className="btn detailBtn">Detail</button>
-                            <button className="btn loveBtn" onClick={() => addFavorite(movies[cardIndex].id)}>+</button>
-                        </MovieBtnWrapper>
-                        <MovieOutLine>{movies[cardIndex].overview}</MovieOutLine>
-                    </BackgroundMovieContent>
-                </div>
-            }
+        <>
 
-            <Mask></Mask>
-            <BottomMask></BottomMask>
-        </MovieContainer>
+            <MovieContainer>
+                {toast.show && <Toast className="fixed top-20 right-5">
+                    {toast.result === "success" ?
+                        <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+                            <HiCheck className="h-5 w-5" />
+                        </div> :
+                        <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+                            <HiX className="h-5 w-5" />
+                        </div>
+                    }
+                    <div className="ml-3 text-sm font-normal">{toast.msg}</div>
+                </Toast>}
+
+                {movies[cardIndex] &&
+                    <>
+                        <div style={{
+                            backgroundImage: `url('https://image.tmdb.org/t/p/w1280/${movies[cardIndex].backdrop_path}')`
+                        }}
+                            className="w-screen h-screen bg-cover bg-inherit bg-no-repeat ml-40">
+                        </div>
+                        <BackgroundMovieContent>
+                            <MovieTitle style={{fontSize: backgroundTitleFontSize}}>{movies[cardIndex].title}</MovieTitle>
+                            <MovieInfoWrapper>
+                                {stars.map((star, idx) => {
+                                    switch (star) {
+                                        case 'full':
+                                            return <BsStarFill key={idx} />;
+                                        case 'half':
+                                            return <BsStarHalf key={idx} />;
+                                        default:
+                                            return <BsStar key={idx} />;
+                                    }
+                                })}
+                            </MovieInfoWrapper>
+                            <MovieTypeWrapper>
+                                {movies[cardIndex].genre_ids.map((typeID, idx) => {
+                                    return <MovieType key={idx}>{movieType.get(typeID)}</MovieType>;
+                                })}
+                            </MovieTypeWrapper>
+                            <div className="flex py-4">
+                                <Button outline gradientDuoTone="greenToBlue" size="xl" onClick={() => {navigate(`/movies/${movies[cardIndex].id}`);}}>Detail</Button>
+                                <Button outline gradientDuoTone="pinkToOrange" size="xl" className=" ml-9" onClick={() => addFavorite(movies[cardIndex].id)}>+</Button>
+                            </div>
+                            <MovieOutLine>{movies[cardIndex].overview}</MovieOutLine>
+                        </BackgroundMovieContent>
+                    </>
+                }
+
+                <Mask></Mask>
+                <BottomMask></BottomMask>
+            </MovieContainer>
+        </>
+
     );
 };
 

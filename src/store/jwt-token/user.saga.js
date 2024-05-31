@@ -1,6 +1,7 @@
-import {call, put, takeLatest, takeLeading} from "redux-saga/effects";
+import {call, put, takeLatest} from 'redux-saga/effects';
 import {tokenAction} from "./token.type";
 import {getCookie} from "../../utils/cookie/cookie.util";
+import {toastAsync} from '../toast/toast.action';
 
 export function* watchRefreshToken() {
     yield takeLatest('REFRESH_ACCESS_TOKEN', refreshTokenSaga);
@@ -56,16 +57,21 @@ export function* addFavoriteMovieSaga(action) {
         switch (addFavoriteRes.msg) {
             case "successful":
                 yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': addFavoriteRes.data}});
+                yield put(toastAsync({'result': 'success', 'msg': addFavoriteRes.msg}));
                 break;
             case "access expired":
                 yield put({type: 'REFRESH_ACCESS_TOKEN', payload: {reTryMsg: {type: "ADD_FAVORITE_MOVIE", payload: payload}}});
                 break;
             default:
+                yield put(toastAsync({'result': 'error', 'msg': addFavoriteRes.msg}));
                 break;
         }
     } catch {
-
     }
+}
+
+export function* watchRemoveFavoriteMovie() {
+    yield takeLatest('REMOVE_FAVORITE_MOVIE', removeFavoriteMovieSaga);
 }
 
 export function* removeFavoriteMovieSaga(action) {
@@ -98,6 +104,3 @@ export function* removeFavoriteMovieSaga(action) {
     }
 }
 
-export function* watchRemoveFavoriteMovie() {
-    yield takeLatest('REMOVE_FAVORITE_MOVIE', removeFavoriteMovieSaga);
-}

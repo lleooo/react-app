@@ -38,9 +38,9 @@ function App() {
           <Route path='movies' element={<PrivateRouteComponent Component={Home} />} />
           <Route path='movies/popular' element={<PrivateRouteComponent Component={Popular} />} />
           <Route path='movies/loves' element={<PrivateRouteComponent Component={Loves} />} />
-          <Route index element={<Auth />}></Route>
           <Route path='/movies/:id' element={<Detail />} />
         </Route>
+        <Route index element={<Auth />}></Route>
       </Routes>
     </div>
   );

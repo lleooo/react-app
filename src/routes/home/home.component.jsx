@@ -42,7 +42,7 @@ const Home = () => {
     }, [handleScroll]);
 
     return (
-        <MovieCardList movies={movies} isLazyload={true} />
+        <MovieCardList movies={movies} isLazyload={true} buttonType={'home'} />
     );
 };
 

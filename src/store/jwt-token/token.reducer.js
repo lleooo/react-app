@@ -25,7 +25,7 @@ export const tokenReducer = (state = USER_INIT_STATE, action) => {
         case tokenAction.MODIFY_FAVORITE_SUCCESS:
             return {
                 ...state,
-                'favorite': [...action.payload.favorite] // 假设有效载荷中包含了favorite数据
+                'favorite': [...action.payload.favorite]
             };
         case tokenAction.LOGOUTFAILED:
         case tokenAction.FETCH_TOKEN_START:

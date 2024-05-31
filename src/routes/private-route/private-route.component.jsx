@@ -28,8 +28,7 @@ const PrivateRouteComponent = (props) => {
 
 
     return (
-        // <Navigate to="/" />
-        currentUser.login ? <props.Component {...props} /> : <props.Component {...props} />
+        currentUser.login ? <props.Component {...props} /> : <Navigate to="/" />
     );
 };
 

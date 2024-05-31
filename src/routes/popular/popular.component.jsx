@@ -1,4 +1,3 @@
-
 import MovieList from "../../components/movie-list/movie-list.component";
 import {useEffect} from "react";
 

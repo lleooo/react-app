@@ -6,10 +6,11 @@ import {
     FormTitle
 } from "../../routes/auth/auth.style";
 import {useNavigate} from "react-router-dom";
-
+import {useState} from "react";
 
 
 const SignInComponent = (props) => {
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const errorText = {
@@ -18,7 +19,12 @@ const SignInComponent = (props) => {
     };
 
     const loginClickHandler = (data) => {
+        setIsLoading((prevIsLoading) => !prevIsLoading);
+
         dispatch(loginAsync(data)).then((loginSuccess) => {
+
+            setIsLoading((prevIsLoading) => !prevIsLoading);
+
             if (loginSuccess) navigate('/movies/popular');
         });
     };
@@ -39,7 +45,7 @@ const SignInComponent = (props) => {
                     {label: 'Password', type: 'password', name: 'signInPassword', registers: {required: true}, errorText: errorText}
                 ]}
                 onSubmitEvent={loginClickHandler}
-                buttonText="Sign In"
+                buttonText={isLoading ? "loading" : "Sign In"}
             />
         </FormContainer>
     );

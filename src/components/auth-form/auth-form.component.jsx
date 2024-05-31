@@ -8,6 +8,7 @@ import {
     AuthBtn,
     ErrorText
 } from "../../routes/auth/auth.style";
+import {Spinner} from "flowbite-react";
 
 const AuthForm = ({fields, onSubmitEvent, buttonText}) => {
     const {
@@ -29,7 +30,9 @@ const AuthForm = ({fields, onSubmitEvent, buttonText}) => {
                     </Group>
                 );
             })}
-            <AuthBtn type="submit">{buttonText}</AuthBtn>
+            <AuthBtn type="submit">
+                {buttonText === "loading" ? <Spinner /> : <span>{buttonText}</span>}
+            </AuthBtn>
         </form>
     );
 };

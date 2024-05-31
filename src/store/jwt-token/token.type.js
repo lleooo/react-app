@@ -6,6 +6,9 @@ export const tokenAction = {
     'LOGOUTSUCCESS': 'logout_success',
     'LOGOUTFAILED': 'logout_failed',
 
+    'SIGNUPSUCCESS': 'signup_success',
+    'SIGNUPFAILED': 'signup_failed',
+
     'REFRESH_TOKEN_SUCCESS': 'refresh_token_success',
 
     'MODIFY_FAVORITE_SUCCESS': 'modify_favorite_success',

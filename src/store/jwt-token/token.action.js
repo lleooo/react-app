@@ -1,5 +1,6 @@
 import {tokenAction} from "./token.type";
 import {getCookie} from "../../utils/cookie/cookie.util";
+import {toastAsync} from "../toast/toast.action";
 
 export const loginStart = () => {
     return {type: tokenAction.FETCH_TOKEN_START};
@@ -45,6 +46,14 @@ export const logoutFail = () => {
     return {type: tokenAction.LOGOUTFAILED};
 };
 
+export const signUpSuccess = () => {
+    return {type: tokenAction.SIGNUPSUCCESS};
+};
+
+export const signUpFail = () => {
+    return {type: tokenAction.SIGNUPFAILED};
+};
+
 export const refreshTokenSuccess = () => {
     const payload = {
         'access_token': getCookie('csrf_access_token'),
@@ -85,6 +94,7 @@ export const loginAsync = (data) => async (dispatch) => {
             return true;
         case "Wrong email or password":
             dispatch(loginFail());
+            dispatch(toastAsync({'result': 'error', 'msg': res['msg']}));
             return false;
         default:
             return false;
@@ -97,6 +107,36 @@ export const logoutAsync = () => async (dispatch) => {
         dispatch(logoutSuccess());
     } else {
         dispatch(logoutFail());
+    }
+};
+
+export const signUpAsync = (data) => async (dispatch) => {
+    const {signUpName, signUpEmail, signUpPassword} = data;
+    const signUpRes = await fetch('/api/signup', {
+        method: "POST",
+        body: JSON.stringify({
+            'username': signUpName,
+            'email': signUpEmail,
+            "password": signUpPassword
+        }),
+        headers: new Headers({
+            "Content-Type": "application/json",
+        })
+    });
+
+    const signUpResJson = await signUpRes.json();
+
+    switch (signUpResJson.msg) {
+        case "success":
+            dispatch(loginAsync({signInEmail: signUpEmail, signInPassword: signUpPassword}));
+            dispatch(toastAsync({'result': 'success', 'msg': 'sign up success'}));
+            return true;
+        case "user exist":
+            dispatch(signUpFail());
+            dispatch(toastAsync({'result': 'error', 'msg': signUpResJson.msg}));
+            return false;
+        default:
+            return false;
     }
 };
 

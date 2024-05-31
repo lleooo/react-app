@@ -3,25 +3,29 @@ import {
     FormContainer,
     FormTitle
 } from "../../routes/auth/auth.style";
+import {useDispatch} from 'react-redux';
+import {signUpAsync} from '../../store/jwt-token/token.action';
+import {useNavigate} from 'react-router-dom';
+import {useState} from 'react';
 
 const SignUpComponent = (props) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const errorText = {
         "required": 'This field is required',
         "pattern": "Entered value does not match email format",
         "minLength": "Password should be at least 8 characters"
     };
     const signUpHandler = (data) => {
-        const {signUpName, signUpEmail, signUpPassword} = data;
-        fetch('/api/signup', {
-            method: "POST",
-            body: JSON.stringify({
-                'username': signUpName,
-                'email': signUpEmail,
-                "password": signUpPassword
-            }),
-            headers: new Headers({
-                "Content-Type": "application/json",
-            })
+        setIsLoading((prevIsLoading) => !prevIsLoading);
+        dispatch(signUpAsync(data)).then(signUpSuccess => {
+            setIsLoading((prevIsLoading) => !prevIsLoading);
+            if (signUpSuccess) {
+                setTimeout(() => {
+                    navigate('/movies/popular');
+                }, 2500);
+            }
         });
     };
 
@@ -45,7 +49,7 @@ const SignUpComponent = (props) => {
                     {label: 'Password', type: 'text', name: 'signUpPassword', registers: {required: true, minLength: 8}, errorText: errorText}
                 ]}
                 onSubmitEvent={signUpHandler}
-                buttonText="Sign Up"
+                buttonText={isLoading ? "loading" : "Sign Up"}
             />
         </FormContainer>
     );

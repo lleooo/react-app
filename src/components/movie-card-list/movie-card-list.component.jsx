@@ -1,6 +1,7 @@
 import MovieCardTwoComponent from "../movie-card2/movie-card-two.component";
 import Skeleton from "../../components/skeleton/skeleton.component";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import Toast from "../toast/toast.component";
 
 /**
  * 
@@ -12,6 +13,7 @@ import {useDispatch} from "react-redux";
  */
 const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, buttonType}) => {
     const dispatch = useDispatch();
+    const toast = useSelector(state => state.toast);
     const skeletonAmount = 16;
 
     const moviesWithSkeleton = isLazyload ? movies.filter(movie => movie) : movies;
@@ -49,6 +51,7 @@ const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, button
 
     return (
         <div className="flex justify-center bg-white dark:bg-gray-800" >
+            {toast.show && <Toast result={toast.result} msg={toast.msg}></Toast>}
             <div className="w-5/6 grid grid-cols-4 gap-4 mt-20">
                 {showSkeleton ? (
                     <>

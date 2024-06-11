@@ -25,7 +25,9 @@ const SignInComponent = (props) => {
 
             setIsLoading((prevIsLoading) => !prevIsLoading);
 
-            if (loginSuccess) navigate('/movies/popular');
+            setTimeout(() => {
+                navigate('/movies/popular');
+            }, 2500);
         });
     };
     return (

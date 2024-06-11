@@ -91,6 +91,7 @@ export const loginAsync = (data) => async (dispatch) => {
     switch (res['msg']) {
         case "successful":
             dispatch(loginSuccess(res['data']));
+            dispatch(toastAsync({'result': 'success', 'msg': res['msg']}));
             return true;
         case "Wrong email or password":
             dispatch(loginFail());

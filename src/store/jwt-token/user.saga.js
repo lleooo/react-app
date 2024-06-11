@@ -92,6 +92,7 @@ export function* removeFavoriteMovieSaga(action) {
         switch (rmFavoriteRes.msg) {
             case "success":
                 yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': rmFavoriteRes.data}});
+                yield put(toastAsync({'result': 'success', 'msg': rmFavoriteRes.msg}));
                 break;
             case "access expired":
                 yield put({type: 'REFRESH_ACCESS_TOKEN', payload: {reTryMsg: {type: "REMOVE_FAVORITE_MOVIE", payload: payload}}});

@@ -15,12 +15,11 @@ import SignUpComponent from "../../components/sign-up/sign-up.component";
 import Toast from "../../components/toast/toast.component";
 
 const Auth = () => {
-    const dispatch = useDispatch();
     const [toggle, setToggle] = useState(false);
     const toast = useSelector(state => state.toast);
 
     const toggleHandler = () => {
-        setToggle(!toggle);
+        setToggle(pre => !pre);
     };
 
     return (
@@ -29,8 +28,8 @@ const Auth = () => {
 
             <AuthContainer>
 
-                <SignInComponent className={toggle ? 'hide' : ""} />
-                <SignUpComponent className={toggle ? "" : "hide2"} />
+                <SignInComponent />
+                <SignUpComponent />
 
                 <ToggleContainer className={toggle ? 'active' : ""}>
                     <Toggle>

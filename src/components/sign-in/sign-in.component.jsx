@@ -20,7 +20,6 @@ const SignInComponent = (props) => {
 
     const loginClickHandler = (data) => {
         setIsLoading((prevIsLoading) => !prevIsLoading);
-
         dispatch(loginAsync(data)).then((loginSuccess) => {
 
             setIsLoading((prevIsLoading) => !prevIsLoading);
@@ -48,6 +47,7 @@ const SignInComponent = (props) => {
                 ]}
                 onSubmitEvent={loginClickHandler}
                 buttonText={isLoading ? "loading" : "Sign In"}
+                showGoogle={true}
             />
         </FormContainer>
     );

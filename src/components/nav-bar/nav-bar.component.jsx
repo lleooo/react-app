@@ -2,12 +2,11 @@ import styled from "styled-components";
 import InputBox from "../../components/input-box/input-box.component";
 
 import {Link, Outlet, useLocation, useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {useState, useRef, useEffect} from "react";
 import {fetchSearchMovie} from "../../utils/tmdb/tmdb.utils";
 import UserProfile from "../user-profile/user-profile.component";
 
-import {DarkThemeToggle, Avatar, Dropdown, Navbar} from "flowbite-react";
+import {DarkThemeToggle, Navbar} from "flowbite-react";
 
 
 const NavContainer = styled.div`

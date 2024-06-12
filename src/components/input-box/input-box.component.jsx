@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import SearchSuggest from "../search-suggestion/search-suggestion.component";
 import {IoSearch} from "react-icons/io5";
-import {IoMdClose} from "react-icons/io";
 import {useState} from "react";
 
 const InputContainer = styled.div`

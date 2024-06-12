@@ -1,4 +1,4 @@
-import MovieList from "../../components/movie-list/movie-list.component";
+import MovieSlider from "../../components/movie-slider/movie-slider.component";
 import {useEffect} from "react";
 
 import {useDispatch, useSelector} from "react-redux";
@@ -16,7 +16,7 @@ const Popular = () => {
     return (
         <>
             <BackgroundMovie cardIndex={index}></BackgroundMovie>
-            <MovieList movies={movies} cardIndex={index} />
+            <MovieSlider movies={movies} cardIndex={index} />
         </>
     );
 };

@@ -28,7 +28,7 @@ const MovieTitle = styled.div`
     text-overflow: ellipsis;
 `;
 
-const MovieCard = ({detail, activeCard, clickEvent, style}) => {
+const MovieSliderCard = ({detail, activeCard, clickEvent, style}) => {
     const {title, poster_path} = detail;
     const className = activeCard ? 'card activeCard' : 'card';
     const cardSize = activeCard ? {} : style;
@@ -45,4 +45,4 @@ const MovieCard = ({detail, activeCard, clickEvent, style}) => {
     );
 };
 
-export default MovieCard;
+export default MovieSliderCard;

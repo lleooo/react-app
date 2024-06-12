@@ -1,4 +1,4 @@
-import MovieCardTwoComponent from "../movie-card2/movie-card-two.component";
+import MovieCard from "../movie-card/movie-card.component";
 import Skeleton from "../../components/skeleton/skeleton.component";
 import {useDispatch, useSelector} from "react-redux";
 import Toast from "../toast/toast.component";
@@ -61,7 +61,7 @@ const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, button
                     </>
                 ) : (
                     moviesWithSkeleton.map((movie, idx) => {
-                        return movie ? <MovieCardTwoComponent key={idx} movie={movie} button={renderButton} /> : <Skeleton key={idx} />;
+                        return movie ? <MovieCard key={idx} movie={movie} button={renderButton} /> : <Skeleton key={idx} />;
                     })
                 )}
             </div>

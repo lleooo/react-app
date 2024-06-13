@@ -11,7 +11,14 @@ import {rootSaga} from './root-saga';
 
 
 const sagaMiddleware = createSagaMiddleware();
-const enhancer = applyMiddleware(thunk, logger, sagaMiddleware);
+
+const middlewares = [thunk, sagaMiddleware];
+
+if (process.env.NODE_ENV !== 'production') {
+    middlewares.push(logger);
+}
+
+const enhancer = applyMiddleware(...middlewares);
 
 const persistConfig = {
     key: 'root',

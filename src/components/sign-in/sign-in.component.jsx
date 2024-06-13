@@ -32,6 +32,7 @@ const SignInComponent = (props) => {
     return (
         <FormContainer className={props.className}>
             <FormTitle>Sign in</FormTitle>
+            {console.log(process.env.REACT_APP_API_URL)}
             <AuthForm
                 fields={[
                     {

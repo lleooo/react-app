@@ -16,7 +16,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                 {fields.map((field, index) => {
                     const {label, type, name, registers, errorText} = field;
                     return (
-                        <div>
+                        <div key={index}>
                             <div className="mb-2 block">
                                 <Label htmlFor="email1" value={label} />
                             </div>

@@ -158,8 +158,8 @@ const BackgroundMovie = ({cardIndex}) => {
                                 })}
                             </MovieTypeWrapper>
                             <div className="flex py-4">
-                                <Button outline gradientDuoTone="greenToBlue" size="xl" onClick={() => {navigate(`/movies/${movies[cardIndex].id}`);}}>Detail</Button>
-                                <Button outline gradientDuoTone="pinkToOrange" size="xl" className=" ml-9" onClick={() => addFavorite(movies[cardIndex].id)}>+</Button>
+                                <Button gradientDuoTone="greenToBlue" size="xl" onClick={() => {navigate(`/movies/${movies[cardIndex].id}`);}}>Detail</Button>
+                                <Button gradientDuoTone="pinkToOrange" size="xl" className=" ml-9" onClick={() => addFavorite(movies[cardIndex].id)}>+</Button>
                             </div>
                             <MovieOutLine>{movies[cardIndex].overview}</MovieOutLine>
                         </BackgroundMovieContent>

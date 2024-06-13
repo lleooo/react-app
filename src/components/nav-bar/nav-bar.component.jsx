@@ -121,7 +121,7 @@ const NavBar = () => {
               suggestion={suggestion}
               searchTerm={searchTerm}
             ></InputBox>
-            <DarkThemeToggle />
+            {/* <DarkThemeToggle /> */}
             <UserProfile></UserProfile>
           </div>
         </NavContainer>

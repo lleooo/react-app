@@ -35,7 +35,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                             size="large"
                             shape="pill"
                             onSuccess={async (credentialResponse) => {
-                                const res = await fetch('/api/googleSignIn', {
+                                const res = await fetch(`${process.env.REACT_APP_API_URL}/api/googleSignIn`, {
                                     method: "POST",
                                     body: JSON.stringify({
                                         'credential': credentialResponse.credential,

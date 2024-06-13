@@ -75,7 +75,7 @@ export const loginAsync = (data) => async (dispatch) => {
 
     dispatch(loginStart());
 
-    const login = await fetch('/api/login', {
+    const login = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
         method: "POST",
         body: JSON.stringify({
             'email': signInEmail,
@@ -103,7 +103,7 @@ export const loginAsync = (data) => async (dispatch) => {
 };
 
 export const logoutAsync = () => async (dispatch) => {
-    const respone = await fetch('/api/logout', {method: "POST"});
+    const respone = await fetch(`${process.env.REACT_APP_API_URL}/api/logout`, {method: "POST"});
     if (respone.status === 200) {
         dispatch(logoutSuccess());
     } else {
@@ -113,7 +113,7 @@ export const logoutAsync = () => async (dispatch) => {
 
 export const signUpAsync = (data) => async (dispatch) => {
     const {signUpName, signUpEmail, signUpPassword} = data;
-    const signUpRes = await fetch('/api/signup', {
+    const signUpRes = await fetch(`${process.env.REACT_APP_API_URL}/api/signup`, {
         method: "POST",
         body: JSON.stringify({
             'username': signUpName,
@@ -142,7 +142,7 @@ export const signUpAsync = (data) => async (dispatch) => {
 };
 
 export const refreshTokenAsync = (currentUser) => async (dispatch) => {
-    const respone = await fetch('/api/refresh', {
+    const respone = await fetch(`${process.env.REACT_APP_API_URL}/api/refresh`, {
         method: "POST",
         headers: {
             'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),

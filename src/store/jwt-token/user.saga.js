@@ -9,7 +9,7 @@ export function* watchRefreshToken() {
 
 export function* refreshTokenSaga(action) {
     try {
-        const res = yield call(fetch, '/api/refresh', {
+        const res = yield call(fetch, `${process.env.REACT_APP_API_URL}/api/refresh`, {
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
@@ -41,7 +41,7 @@ export function* watchAddFavoriteMovie() {
 export function* addFavoriteMovieSaga(action) {
     try {
         const {payload} = action;
-        const res = yield call(fetch, '/api/addFavorite', {
+        const res = yield call(fetch, `${process.env.REACT_APP_API_URL}/api/addFavorite`, {
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': getCookie('csrf_access_token'),
@@ -77,7 +77,7 @@ export function* watchRemoveFavoriteMovie() {
 export function* removeFavoriteMovieSaga(action) {
     try {
         const {payload} = action;
-        const res = yield call(fetch, '/api/removeFavorite', {
+        const res = yield call(fetch, `${process.env.REACT_APP_API_URL}/api/removeFavorite`, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': getCookie('csrf_access_token'),

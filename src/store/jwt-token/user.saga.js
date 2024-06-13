@@ -57,7 +57,7 @@ export function* addFavoriteMovieSaga(action) {
         switch (addFavoriteRes.msg) {
             case "successful":
                 yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': addFavoriteRes.data}});
-                yield put(toastAsync({'result': 'success', 'msg': addFavoriteRes.msg}));
+                yield put(toastAsync({'result': 'success', 'msg': addFavoriteRes.msg, 'showSubMsg': false, 'subMsg': ''}));
                 break;
             case "access expired":
                 yield put({type: 'REFRESH_ACCESS_TOKEN', payload: {reTryMsg: {type: "ADD_FAVORITE_MOVIE", payload: payload}}});
@@ -92,7 +92,7 @@ export function* removeFavoriteMovieSaga(action) {
         switch (rmFavoriteRes.msg) {
             case "success":
                 yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': rmFavoriteRes.data}});
-                yield put(toastAsync({'result': 'success', 'msg': rmFavoriteRes.msg}));
+                yield put(toastAsync({'result': 'success', 'msg': rmFavoriteRes.msg, 'showSubMsg': false, 'subMsg': ''}));
                 break;
             case "access expired":
                 yield put({type: 'REFRESH_ACCESS_TOKEN', payload: {reTryMsg: {type: "REMOVE_FAVORITE_MOVIE", payload: payload}}});

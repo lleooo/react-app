@@ -91,7 +91,7 @@ export const loginAsync = (data) => async (dispatch) => {
     switch (res['msg']) {
         case "successful":
             dispatch(loginSuccess(res['data']));
-            dispatch(toastAsync({'result': 'success', 'msg': res['msg']}));
+            dispatch(toastAsync({'result': 'success', 'msg': 'Login Successful', 'showSubMsg': true, 'subMsg': 'Directing to homepage....'}));
             return true;
         case "Wrong email or password":
             dispatch(loginFail());
@@ -130,7 +130,7 @@ export const signUpAsync = (data) => async (dispatch) => {
     switch (signUpResJson.msg) {
         case "success":
             dispatch(loginAsync({signInEmail: signUpEmail, signInPassword: signUpPassword}));
-            dispatch(toastAsync({'result': 'success', 'msg': 'sign up success'}));
+            dispatch(toastAsync({'result': 'success', 'msg': 'sign up success', 'showSubMsg': true, 'subMsg': 'Directing to homepage....'}));
             return true;
         case "user exist":
             dispatch(signUpFail());

@@ -1,5 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
-import {logoutAsync} from "../../store/jwt-token/token.action";
+import {useSelector} from "react-redux";
 import {useState} from "react";
 import {
     LoginPage,
@@ -24,7 +23,7 @@ const Auth = () => {
 
     return (
         <LoginPage>
-            {toast.show && <Toast result={toast.result} msg={toast.msg}></Toast>}
+            <Toast result={toast.result} msg={toast.msg} topPos={'10'}></Toast>
 
             <AuthContainer>
 

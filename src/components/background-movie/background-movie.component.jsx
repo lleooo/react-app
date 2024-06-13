@@ -3,9 +3,7 @@ import styled from "styled-components";
 import {BsStar} from "react-icons/bs";
 import {BsStarFill} from "react-icons/bs";
 import {BsStarHalf} from "react-icons/bs";
-import {HiCheck, HiX} from "react-icons/hi";
 import {movieType} from "../../utils/tmdb/tmdb.utils";
-import {loginSuccess, refreshTokenAsync} from "../../store/jwt-token/token.action";
 import {Button} from "flowbite-react";
 import {useNavigate} from "react-router-dom";
 import Toast from "../toast/toast.component";
@@ -101,7 +99,6 @@ const MovieOutLine = styled.div`
 
 const BackgroundMovie = ({cardIndex}) => {
     const movies = useSelector(state => state.monster);
-    const toast = useSelector(state => state.toast);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const stars = [];
@@ -131,9 +128,8 @@ const BackgroundMovie = ({cardIndex}) => {
     };
     return (
         <>
-
             <MovieContainer>
-                {toast.show && <Toast result={toast.result} msg={toast.msg}></Toast>}
+                <Toast topPos={'20'}></Toast>
 
                 {movies[cardIndex] &&
                     <>

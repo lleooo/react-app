@@ -26,13 +26,12 @@ const SignInComponent = (props) => {
 
             setTimeout(() => {
                 navigate('/movies/popular');
-            }, 2500);
+            }, 3100);
         });
     };
     return (
         <FormContainer className={props.className}>
             <FormTitle>Sign in</FormTitle>
-            {console.log(process.env.REACT_APP_API_URL)}
             <AuthForm
                 fields={[
                     {

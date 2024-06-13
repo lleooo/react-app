@@ -3,7 +3,9 @@ import {toastAction} from "./toast.type";
 const TOAST_INIT_STATE = {
     'show': false,
     'result': null,
-    'msg': null
+    'msg': null,
+    'showSubMsg': false,
+    'subMsg': null
 };
 
 export const toastReducer = (state = TOAST_INIT_STATE, action) => {
@@ -13,14 +15,16 @@ export const toastReducer = (state = TOAST_INIT_STATE, action) => {
                 ...state,
                 'show': true,
                 'result': action.payload.result,
-                'msg': action.payload.msg
+                'msg': action.payload.msg,
+                'showSubMsg': action.payload.showSubMsg,
+                'subMsg': action.payload.subMsg
             };
         case toastAction.HIDE_TOAST:
             return {
                 ...state,
                 'show': false,
-                'result': action.payload.result,
-                'msg': action.payload.msg
+                'result': '',
+                'msg': ''
             };
         default:
             return state;

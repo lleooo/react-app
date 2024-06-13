@@ -51,7 +51,7 @@ const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, button
 
     return (
         <div className="flex justify-center bg-white dark:bg-gray-800" >
-            {toast.show && <Toast result={toast.result} msg={toast.msg}></Toast>}
+            <Toast topPos={'20'}></Toast>
             <div className="w-5/6 grid grid-cols-4 gap-4 mt-20">
                 {showSkeleton ? (
                     <>

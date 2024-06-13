@@ -24,7 +24,7 @@ const SignUpComponent = (props) => {
             if (signUpSuccess) {
                 setTimeout(() => {
                     navigate('/movies/popular');
-                }, 2500);
+                }, 3100);
             }
         });
     };

@@ -10,7 +10,4 @@ export const hideToast = (toastInfo) => {
 
 export const toastAsync = (toastInfo) => (dispatch) => {
     dispatch(showToast(toastInfo));
-    setTimeout(() => {
-        dispatch(hideToast(toastInfo));
-    }, 2000);
 };

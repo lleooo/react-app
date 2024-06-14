@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://react-app-flask-server.onrender.com/:splat"
+  status = 200
+  force = true

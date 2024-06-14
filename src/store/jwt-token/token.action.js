@@ -84,6 +84,7 @@ export const loginAsync = (data) => async (dispatch) => {
         headers: new Headers({
             "Content-Type": "application/json",
         }),
+        credentials: 'include'
     });
 
     const res = await login.json();

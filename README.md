@@ -1,10 +1,14 @@
-# Getting Started with Create React App
+# React 電影網站
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+這是一個使用 React 框架構建的電影網站，它使用了 The Movie Database (TMDB) 的 API 來提供近期有名的電影，並通過 flask server 與 mongoDB 來管理使用者與其愛好的電影(server github 連結)
 
-## Available Scripts
+## 功能與用途
 
-In the project directory, you can run:
+-了解目前最新電影的詳細資料
+
+-可以收藏自己感興趣的電影
+
+-搜尋自己有興趣的電影
 
 ### `npm start`
 

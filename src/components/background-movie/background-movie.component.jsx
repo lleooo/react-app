@@ -7,20 +7,13 @@ import {movieType} from "../../utils/tmdb/tmdb.utils";
 import {Button} from "flowbite-react";
 import {useNavigate} from "react-router-dom";
 import Toast from "../toast/toast.component";
+import {useEffect, useRef} from "react";
 
 const MovieContainer = styled.div`
     position:relative;
     width:100%;
     height:100vh;
     overflow:hidden;
-`;
-
-const MovieImg = styled.img`
-    position:absolute;
-    top:0;
-    left:5%;
-    width:100%;
-    /* height: 100%; */
 `;
 const Mask = styled.div`
     position:absolute;
@@ -44,7 +37,7 @@ const BottomMask = styled.div`
 
 const BackgroundMovieContent = styled.div`
     width:35%;
-    height:60%;
+    height:50%;
 
     position:absolute;
     top:15%;
@@ -90,10 +83,12 @@ const MovieType = styled.div`
     padding-right: 10px;
 `;
 const MovieOutLine = styled.div`
+    width: 100%;
     height:50%; 
     font-family:'body';
     line-height: 1.5;
     font-size: 20px;
+    position: relative;
 `;
 
 
@@ -101,6 +96,10 @@ const BackgroundMovie = ({cardIndex}) => {
     const movies = useSelector(state => state.monster);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const outLineContainerRef = useRef(null);
+    const outLineTextRef = useRef(null);
+
     const stars = [];
     let backgroundTitleFontSize = "";
 
@@ -122,6 +121,35 @@ const BackgroundMovie = ({cardIndex}) => {
             backgroundTitleFontSize = "3vw";
         }
     }
+
+
+    useEffect(() => {
+        const adjustOutLineFontSize = () => {
+
+            if (outLineContainerRef.current && outLineTextRef.current) {
+                //設定初始fontSize
+                let initFontSize = 20;
+                outLineTextRef.current.style.fontSize = `${initFontSize}px`;
+
+                //取得container&text高度比較
+                const containerHeight = outLineContainerRef.current.clientHeight;
+                let textHeight = outLineTextRef.current.offsetHeight;
+
+                while (containerHeight < textHeight) {
+                    initFontSize--;
+                    outLineTextRef.current.style.fontSize = `${initFontSize}px`;//設定新的fontSize
+                    textHeight = outLineTextRef.current.offsetHeight;
+                }
+            }
+        };
+
+        adjustOutLineFontSize();
+        window.addEventListener('resize', adjustOutLineFontSize);
+        return () => window.removeEventListener('resize', adjustOutLineFontSize);
+    }, [movies, cardIndex]);
+
+
+
 
     const addFavorite = async (movieID) => {
         dispatch({type: "ADD_FAVORITE_MOVIE", payload: movieID});
@@ -161,7 +189,9 @@ const BackgroundMovie = ({cardIndex}) => {
                                 <Button gradientDuoTone="greenToBlue" size="xl" onClick={() => {navigate(`/movies/${movies[cardIndex].id}`);}}>Detail</Button>
                                 <Button gradientDuoTone="pinkToOrange" size="xl" className=" ml-9" onClick={() => addFavorite(movies[cardIndex].id)}>+</Button>
                             </div>
-                            <MovieOutLine>{movies[cardIndex].overview}</MovieOutLine>
+                            <MovieOutLine ref={outLineContainerRef}>
+                                <span ref={outLineTextRef}>{movies[cardIndex].overview}</span>
+                            </MovieOutLine>
                         </BackgroundMovieContent>
                     </>
                 }

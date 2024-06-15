@@ -6,13 +6,12 @@ const SliderContainer = styled.div`
     position:absolute;
     bottom:.5rem;
     width:100%;
-    // height:30%;
     overflow:hidden;
     transition: transform 0.5s ease;
 `;
 
 const Slider = styled.div`
-    width:175%;
+    width:200%;
     position: relative;
     display: flex;
     transition: transform 0.5s ease;

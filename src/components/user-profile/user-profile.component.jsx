@@ -7,7 +7,7 @@ const UserProfile = () => {
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
 
-    console.log(user);
+    // console.log(user);
     return (
         <div className="flex md:order-2">
             <Dropdown

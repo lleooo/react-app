@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import SearchSuggest from "../search-suggestion/search-suggestion.component";
 import {IoSearch} from "react-icons/io5";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const InputContainer = styled.div`
   position:relative;
@@ -52,19 +52,25 @@ const Search = styled.span`
 
 const InputBox = ({onChange, onKeyDown, suggestion, searchTerm}) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const inputEle = useRef();
 
   const toggleSearchBox = () => {
     setIsExpanded(!isExpanded);
   };
 
+  useEffect(() => {
+    if (suggestion && inputEle.current.value !== "") setShowSuggestion(true);
+  }, [suggestion]);
+
   return (
     <>
       <InputContainer className={isExpanded ? "open" : "open"} >
-        <Input className={isExpanded ? "open" : "open"} onChange={onChange} onKeyDown={onKeyDown} type="text" placeholder="Search..."></Input>
+        <Input ref={inputEle} className={isExpanded ? "open" : "open"} onChange={onChange} onKeyDown={onKeyDown} type="text" placeholder="Search..."></Input>
         <Search onClick={() => toggleSearchBox()}>
           <i style={{height: "20px"}}><IoSearch style={{fontSize: '20px'}} /></i>
         </Search>
-        {suggestion.length !== 0 && <SearchSuggest suggestion={suggestion} searchTerm={searchTerm} />}
+        {showSuggestion && <SearchSuggest suggestion={suggestion} searchTerm={searchTerm} />}
       </InputContainer>
 
 

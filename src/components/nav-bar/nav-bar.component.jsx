@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import InputBox from "../../components/input-box/input-box.component";
 
-import {Link, Outlet, useLocation, useNavigate} from "react-router-dom";
+import {Link, Outlet, useLocation} from "react-router-dom";
 import {useState, useRef, useEffect} from "react";
 import {fetchSearchMovie} from "../../utils/tmdb/tmdb.utils";
 import UserProfile from "../user-profile/user-profile.component";
+import logo from "../../assets/crown.svg";
 
 import {DarkThemeToggle, Navbar} from "flowbite-react";
 
@@ -31,6 +32,12 @@ const NavElement = styled.div`
   margin-left: 1.5rem;
 `;
 
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+`;
+
 const Nav = styled.nav`
   color: white;
   padding: 20px;
@@ -53,30 +60,16 @@ const NavLink = styled(Link)`
 `;
 
 const NavBar = () => {
+  console.log('navbar');
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestion, setSuggestion] = useState([]);
   const timer = useRef();
-  const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(logo);
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleKeyDown = async (event) => {
-    if (event.key === "Enter") {
-      let searchMovie = suggestion;
-
-      if (timer.current !== null) {
-        clearTimeout(timer.current);
-        searchMovie = await fetchSearchMovie(searchTerm);
-      }
-
-      navigate("/search", {
-        state: searchMovie,
-      });
-    }
-  };
 
   useEffect(() => {
     if (searchTerm !== "") {
@@ -90,13 +83,13 @@ const NavBar = () => {
     return () => {
       clearTimeout(timer.current);
     };
-  }, [searchTerm]);
+  }, [searchTerm, location.pathname]);
 
   if (location.pathname === "/movies/popular") {
     return (
       <>
         <NavContainer>
-          <Nav>logo</Nav>
+          <Logo><img src={logo} alt="" /></Logo>
           <NavElement>
             <Nav>
               <NavLink to="/movies">Home</NavLink>
@@ -104,24 +97,12 @@ const NavBar = () => {
               <NavLink to="/movies/loves">loves</NavLink>
             </Nav>
           </NavElement>
-          <div
-            style={{
-              position: "absolute",
-              right: "0",
-              width: "30%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-            }}
-          >
+          <div className=" absolute right-0 w-4/12 h-full flex items-center justify-evenly">
             <InputBox
               onChange={(e) => handleChange(e)}
-              onKeyDown={(e) => handleKeyDown(e)}
               suggestion={suggestion}
               searchTerm={searchTerm}
             ></InputBox>
-            {/* <DarkThemeToggle /> */}
             <UserProfile></UserProfile>
           </div>
         </NavContainer>
@@ -134,8 +115,7 @@ const NavBar = () => {
     <>
       <Navbar fluid rounded>
         <Navbar.Brand href="https://flowbite-react.com">
-          <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
+          <img src={logo} alt="" />
         </Navbar.Brand>
         <div className="flex md:order-2">
           <UserProfile></UserProfile>

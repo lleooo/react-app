@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 
 const SuggestContainer = styled.div`
   border:1px solid #ccc;
+  background-color: #ccc;
   width:100%;
 `;
 
@@ -15,14 +16,14 @@ const SuggestItem = styled.div`
 `;
 
 const Hightlight = styled.span`
-  color:red
+  color:red;
 `;
 
 const SearchSuggest = ({suggestion, searchTerm}) => {
-
     const navigate = useNavigate();
-    const handleClick = () => {
-        navigate(`/movieDetail`);
+
+    const handleClick = (id) => {
+        navigate(`/movies/${id}`);
     };
 
     return (
@@ -39,7 +40,7 @@ const SearchSuggest = ({suggestion, searchTerm}) => {
                             {index < split.length - 1 && <Hightlight>{matches[index]}</Hightlight>}
                         </span>
                     ));
-                    return <SuggestItem onClick={handleClick} key={movie.id} >{movieNameEle}</SuggestItem>;
+                    return <SuggestItem onClick={() => handleClick(movie.id)} key={movie.id} >{movieNameEle}</SuggestItem>;
                 }
             })}
         </SuggestContainer>

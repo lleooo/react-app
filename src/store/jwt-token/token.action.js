@@ -1,5 +1,4 @@
 import {tokenAction} from "./token.type";
-import {getCookie} from "../../utils/cookie/cookie.util";
 import {toastAsync} from "../toast/toast.action";
 
 export const loginStart = () => {
@@ -12,9 +11,11 @@ export const loginSuccess = (data) => {
         'username': data.username,
         'email': data.email,
         'favorite': data.favorite,
-        'access_token': getCookie('csrf_access_token'),
-        'refresh_token': getCookie('csrf_refresh_token')
+        'access_token': data.access_token,
+        'refresh_token': data.refresh_token
     };
+    localStorage.setItem('jwt', data.access_token);
+    localStorage.setItem('jwt_refresh', data.refresh_token);
     return {type: tokenAction.FETCH_TOKEN_SUCCESS, payload: payload};
 };
 
@@ -56,8 +57,8 @@ export const signUpFail = () => {
 
 export const refreshTokenSuccess = () => {
     const payload = {
-        'access_token': getCookie('csrf_access_token'),
-        'refresh_token': getCookie('csrf_refresh_token')
+        'access_token': localStorage.getItem('jwt'),
+        'refresh_token': localStorage.getItem('jwt_refresh')
     };
     return {type: tokenAction.REFRESH_TOKEN_SUCCESS, payload: payload};
 };
@@ -140,20 +141,4 @@ export const signUpAsync = (data) => async (dispatch) => {
         default:
             return false;
     }
-};
-
-export const refreshTokenAsync = (currentUser) => async (dispatch) => {
-    const respone = await fetch(`${process.env.REACT_APP_API_URL}/api/refresh`, {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
-        },
-    });
-
-    if (respone.status === 200) {
-        dispatch(loginSuccess(currentUser));
-    } else if (respone.status === 401) {
-        dispatch(loginFail());
-    }
-    return 'fail';
 };

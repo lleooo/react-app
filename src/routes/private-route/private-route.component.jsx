@@ -8,13 +8,19 @@ const PrivateRouteComponent = (props) => {
 
     useEffect(() => {
         const verifyToken = async () => {
-            const checkToken = await fetch(`${process.env.REACT_APP_API_URL}/api/verify-token`, {method: "GET"});
+            const checkToken = await fetch(`${process.env.REACT_APP_API_URL}/api/verify-token`, {
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                }
+            });
             const {msg} = await checkToken.json();
 
+            //todo:update currentUser when token auth fail
             switch (msg) {
                 case "Token is valid":
                     break;
-                case "access expired":
+                case "Token has expired":
                     dispatch({type: 'REFRESH_ACCESS_TOKEN'});
                     break;
                 default:

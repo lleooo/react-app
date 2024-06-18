@@ -1,6 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {tokenAction} from "./token.type";
-import {getCookie} from "../../utils/cookie/cookie.util";
 import {toastAsync} from '../toast/toast.action';
 
 export function* watchRefreshToken() {
@@ -9,28 +8,25 @@ export function* watchRefreshToken() {
 
 export function* refreshTokenSaga(action) {
     try {
+        const jwt_refresh = localStorage.getItem('jwt_refresh');
         const res = yield call(fetch, `${process.env.REACT_APP_API_URL}/api/refresh`, {
             method: "POST",
             headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
+                Authorization: `Bearer ${jwt_refresh}`,
             },
         });
 
-        if (res.status === 200) {
-            const newAccess = getCookie('csrf_access_token'), newRefresh = getCookie('csrf_refresh_token');
-            yield put({type: tokenAction.REFRESH_TOKEN_SUCCESS, payload: {'access_token': newAccess, 'refresh_token': newRefresh}});
+        const refreshTokenRes = yield res.json();
+
+        if (refreshTokenRes.refresh) {
+            localStorage.setItem('jwt', refreshTokenRes.access_token);
+            const newJwt = localStorage.getItem('jwt');
+            yield put({type: tokenAction.REFRESH_TOKEN_SUCCESS, payload: {'access_token': newJwt, 'refresh_token': jwt_refresh}});
             yield put(action.payload.reTryMsg);
-        } else {
-            yield put();
         }
     } catch (error) {
 
     }
-    // if (respone.status === 200) {
-    //     dispatch(loginSuccess(currentUser));
-    // } else if (respone.status === 401) {
-    //     dispatch(loginFail());
-    // }
     return 'fail';
 }
 
@@ -44,7 +40,7 @@ export function* addFavoriteMovieSaga(action) {
         const res = yield call(fetch, `${process.env.REACT_APP_API_URL}/api/addFavorite`, {
             method: "POST",
             headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -59,7 +55,7 @@ export function* addFavoriteMovieSaga(action) {
                 yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': addFavoriteRes.data}});
                 yield put(toastAsync({'result': 'success', 'msg': addFavoriteRes.msg, 'showSubMsg': false, 'subMsg': ''}));
                 break;
-            case "access expired":
+            case "Token has expired":
                 yield put({type: 'REFRESH_ACCESS_TOKEN', payload: {reTryMsg: {type: "ADD_FAVORITE_MOVIE", payload: payload}}});
                 break;
             default:
@@ -67,6 +63,7 @@ export function* addFavoriteMovieSaga(action) {
                 break;
         }
     } catch {
+
     }
 }
 
@@ -80,7 +77,7 @@ export function* removeFavoriteMovieSaga(action) {
         const res = yield call(fetch, `${process.env.REACT_APP_API_URL}/api/removeFavorite`, {
             method: 'DELETE',
             headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -94,7 +91,7 @@ export function* removeFavoriteMovieSaga(action) {
                 yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': rmFavoriteRes.data}});
                 yield put(toastAsync({'result': 'success', 'msg': rmFavoriteRes.msg, 'showSubMsg': false, 'subMsg': ''}));
                 break;
-            case "access expired":
+            case "Token has expired":
                 yield put({type: 'REFRESH_ACCESS_TOKEN', payload: {reTryMsg: {type: "REMOVE_FAVORITE_MOVIE", payload: payload}}});
                 break;
             default:

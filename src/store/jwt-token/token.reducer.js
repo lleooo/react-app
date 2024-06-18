@@ -1,12 +1,11 @@
 import {tokenAction} from "./token.type";
-import {getCookie} from "../../utils/cookie/cookie.util";
 
 const USER_INIT_STATE = {
-    'login': getCookie('csrf_access_token') ? true : false,
+    'login': localStorage.getItem('jwt') ? true : false,
     'username': '',
     'email': '',
-    'access_token': getCookie('csrf_access_token'),
-    'refresh_token': getCookie('csrf_refresh_token'),
+    'access_token': localStorage.getItem('jwt'),
+    'refresh_token': localStorage.getItem('jwt_refresh'),
     'favorite': []
 };
 

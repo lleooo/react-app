@@ -51,7 +51,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                                 // navigate('/movies/popular');
                             }}
                             onError={() => {
-                                console.log('Login Failed');
+                                // console.log('Login Failed');
                             }}
                         />
                     </div>

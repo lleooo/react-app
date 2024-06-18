@@ -1,7 +1,7 @@
 import {createGlobalStyle} from 'styled-components';
 
 import NavBar from './components/nav-bar/nav-bar.component';
-import {Route, Routes, useNavigate} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import Popular from './routes/popular/popular.component';
 import Home from './routes/home/home.component';
 import Loves from './routes/loves/love.component';
@@ -9,7 +9,6 @@ import Detail from './routes/movie-detail/moive-detail.component';
 import Auth from './routes/auth/auth.component';
 import PrivateRouteComponent from './routes/private-route/private-route.component';
 
-import font1 from '../src/assets/fonts/PermanentMarker-Regular.ttf';
 import font2 from '../src/assets/fonts/ProtestRevolution-Regular.ttf';
 import font3 from '../src/assets/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf';
 

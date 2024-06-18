@@ -60,12 +60,10 @@ const NavLink = styled(Link)`
 `;
 
 const NavBar = () => {
-  console.log('navbar');
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestion, setSuggestion] = useState([]);
   const timer = useRef();
   const location = useLocation();
-  console.log(logo);
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };

@@ -3,12 +3,8 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import {Tabs, Card} from "flowbite-react";
 
-// import {HiAdjustments, HiClipboardList, HiUserCircle} from "react-icons/hi";
-// import {MdDashboard} from "react-icons/md";
 
-const Detail = ({render}) => {
-    console.log('render');
-    const [name, setName] = useState('');
+const Detail = () => {
     const [movieDetail, setMovieDetail] = useState({});
     const navigate = useNavigate();
     const {id} = useParams();
@@ -17,11 +13,10 @@ const Detail = ({render}) => {
         const fetchDetail = async () => {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US&append_to_response=release_dates,credits,recommendations,similar,images&language=en-US`);
             const movieData = await response.json();
-            console.log(movieData);
             setMovieDetail({...movieData});
         };
         fetchDetail();
-    }, [navigate]);
+    }, [id]);
 
     const navigateToSimilarMovie = (id) => {
         navigate(`/movies/${id}`);
@@ -74,7 +69,7 @@ const Detail = ({render}) => {
                     <div className=" w-2/6 h-full">
                         <img src={`https://image.tmdb.org/t/p/w500/${movieDetail.poster_path}`} alt="" className="w-full h-full object-cover" />
                     </div>
-                    <div className=" w-4/6 p-8 bg-white opacity-80 w-full">
+                    <div className=" w-4/6 p-8 bg-white opacity-80">
                         <section className="w-full">
                             <div>
                                 <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl">{movieDetail.title}</h1>
@@ -98,10 +93,6 @@ const Detail = ({render}) => {
                                 </Tabs>
                             </div>
 
-                            {/* <div>
-                                <span>{movieDetail.overview}</span>
-                            </div> */}
-
                         </section>
                     </div>
                 </div>
@@ -113,5 +104,4 @@ const Detail = ({render}) => {
 
 export default Detail;
 
-//https://dribbble.com/shots/2845617-Re-design-Movie-Detail
 

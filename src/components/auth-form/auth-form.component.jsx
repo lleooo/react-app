@@ -48,7 +48,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                                 const googleUserInfo = await res.json();
 
                                 dispatch(loginSuccess(googleUserInfo['data']));
-                                // navigate('/movies/popular');
+                                navigate('/movies/popular');
                             }}
                             onError={() => {
                                 // console.log('Login Failed');

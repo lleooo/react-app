@@ -50,13 +50,6 @@ const NavLink = styled(Link)`
   padding: 10px;
   margin: 0 10px;
   font-weight: bold;
-
-  &:active,
-  &:focus {
-    color: red;
-    outline: none;
-    border-bottom: 1px solid black;
-  }
 `;
 
 const NavBar = () => {

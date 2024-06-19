@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import Toast from "../toast/toast.component";
 import {useEffect, useRef} from "react";
 
+
 const MovieContainer = styled.div`
     position:relative;
     width:100%;
@@ -158,7 +159,6 @@ const BackgroundMovie = ({cardIndex}) => {
         <>
             <MovieContainer>
                 <Toast topPos={'20'}></Toast>
-
                 {movies[cardIndex] &&
                     <>
                         <div style={{

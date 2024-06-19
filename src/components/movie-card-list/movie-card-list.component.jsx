@@ -11,9 +11,9 @@ import Toast from "../toast/toast.component";
  * @param {Boolean} props.isLazyload - 此movieList是否需要lazyload功能
  * @param {String} props.buttonType - list裡顯示的不同button
  */
-const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, buttonType}) => {
+const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, path}) => {
     const dispatch = useDispatch();
-    const toast = useSelector(state => state.toast);
+    const favorite = useSelector(state => state.user.favorite);
     const skeletonAmount = 16;
 
     const moviesWithSkeleton = isLazyload ? movies.filter(movie => movie) : movies;
@@ -29,18 +29,21 @@ const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, button
     };
 
     const renderButton = (movieID) => {
-        switch (buttonType) {
+
+        const addLoveBtn = <button onClick={() => {addFavorite(movieID);}} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >add to favorites</button>;
+        const removeLoveBtn = <button onClick={() => {rmFavorite(movieID);}} className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800" >Remove from favorites</button>;
+
+        switch (path) {
             case 'home':
                 return (
                     <div className="flex items-center justify-between">
-                        <a href={`/movies/${movieID}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >Detail</a>
-                        <a onClick={() => {addFavorite(movieID);}} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >add to favorites</a>
+                        {favorite.includes(movieID) ? removeLoveBtn : addLoveBtn}
                     </div>
                 );
             case 'love':
                 return (
                     <div className="flex items-center justify-between">
-                        <a onClick={() => {rmFavorite(movieID);}} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >Remove from favorites</a>
+                        {removeLoveBtn}
                     </div>
                 );
             default:
@@ -61,7 +64,7 @@ const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, button
                     </>
                 ) : (
                     moviesWithSkeleton.map((movie, idx) => {
-                        return movie ? <MovieCard key={idx} movie={movie} button={renderButton} /> : <Skeleton key={idx} />;
+                        return movie ? <MovieCard key={idx} movie={movie} button={renderButton} showRating={path === "home"} /> : <Skeleton key={idx} />;
                     })
                 )}
             </div>

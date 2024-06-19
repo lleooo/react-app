@@ -51,7 +51,7 @@ class Loves extends React.Component {
   render() {
     const {favoriteMovies, finishFetch} = this.state;
 
-    return finishFetch ? <MovieCardList movies={favoriteMovies} buttonType={'love'} /> : <MovieCardList showSkeleton={true} buttonType={'love'} />;
+    return finishFetch ? <MovieCardList movies={favoriteMovies} path={'love'} /> : <MovieCardList showSkeleton={true} path={'love'} />;
   }
 }
 

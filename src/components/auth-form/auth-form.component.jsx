@@ -4,7 +4,7 @@ import {Spinner, Button, Card, Label, TextInput} from "flowbite-react";
 import {GoogleLogin} from "@react-oauth/google";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {loginSuccess} from "../../store/jwt-token/token.action";
+import {loginSuccess} from "../../store/user/user.action";
 
 const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
     const {register, handleSubmit, formState: {errors}} = useForm();

@@ -1,8 +1,8 @@
-import {tokenAction} from "./token.type";
+import {userAction} from "./user.type";
 import {toastAsync} from "../toast/toast.action";
 
 export const loginStart = () => {
-    return {type: tokenAction.FETCH_TOKEN_START};
+    return {type: userAction.FETCH_TOKEN_START};
 };
 
 export const loginSuccess = (data) => {
@@ -16,7 +16,7 @@ export const loginSuccess = (data) => {
     };
     localStorage.setItem('jwt', data.access_token);
     localStorage.setItem('jwt_refresh', data.refresh_token);
-    return {type: tokenAction.FETCH_TOKEN_SUCCESS, payload: payload};
+    return {type: userAction.FETCH_TOKEN_SUCCESS, payload: payload};
 };
 
 export const loginFail = () => {
@@ -28,7 +28,7 @@ export const loginFail = () => {
         'access_token': null,
         'refresh_token': null
     };
-    return {type: tokenAction.FETCH_TOKEN_FAILED, payload: payload};
+    return {type: userAction.FETCH_TOKEN_FAILED, payload: payload};
 };
 
 export const logoutSuccess = () => {
@@ -40,19 +40,19 @@ export const logoutSuccess = () => {
         'access_token': null,
         'refresh_token': null
     };
-    return {type: tokenAction.LOGOUTSUCCESS, payload: payload};
+    return {type: userAction.LOGOUTSUCCESS, payload: payload};
 };
 
 export const logoutFail = () => {
-    return {type: tokenAction.LOGOUTFAILED};
+    return {type: userAction.LOGOUTFAILED};
 };
 
 export const signUpSuccess = () => {
-    return {type: tokenAction.SIGNUPSUCCESS};
+    return {type: userAction.SIGNUPSUCCESS};
 };
 
 export const signUpFail = () => {
-    return {type: tokenAction.SIGNUPFAILED};
+    return {type: userAction.SIGNUPFAILED};
 };
 
 export const refreshTokenSuccess = () => {
@@ -60,15 +60,15 @@ export const refreshTokenSuccess = () => {
         'access_token': localStorage.getItem('jwt'),
         'refresh_token': localStorage.getItem('jwt_refresh')
     };
-    return {type: tokenAction.REFRESH_TOKEN_SUCCESS, payload: payload};
+    return {type: userAction.REFRESH_TOKEN_SUCCESS, payload: payload};
 };
 
 export const addFavoriteSuccess = (user) => {
-    return {type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: user};
+    return {type: userAction.MODIFY_FAVORITE_SUCCESS, payload: user};
 };
 
 export const removeFavoriteSuccess = (user) => {
-    return {type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: user};
+    return {type: userAction.MODIFY_FAVORITE_SUCCESS, payload: user};
 };
 
 export const loginAsync = (data) => async (dispatch) => {
@@ -105,12 +105,9 @@ export const loginAsync = (data) => async (dispatch) => {
 };
 
 export const logoutAsync = () => async (dispatch) => {
-    const respone = await fetch(`${process.env.REACT_APP_API_URL}/api/logout`, {method: "POST"});
-    if (respone.status === 200) {
-        dispatch(logoutSuccess());
-    } else {
-        dispatch(logoutFail());
-    }
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('jwt_refresh');
+    dispatch(logoutSuccess());
 };
 
 export const signUpAsync = (data) => async (dispatch) => {

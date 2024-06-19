@@ -4,7 +4,7 @@ import {
     FormTitle
 } from "../../routes/auth/auth.style";
 import {useDispatch} from 'react-redux';
-import {signUpAsync} from '../../store/jwt-token/token.action';
+import {signUpAsync} from '../../store/user/user.action';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 

@@ -4,9 +4,9 @@ import {all, takeEvery} from 'redux-saga/effects';
 // import {removeFavoriteMovieSaga} from './jwt-token/user.saga';
 // import {refreshTokenSaga} from './jwt-token/user.saga';
 
-import {watchRemoveFavoriteMovie} from './jwt-token/user.saga';
-import {watchRefreshToken} from './jwt-token/user.saga';
-import {watchAddFavoriteMovie} from './jwt-token/user.saga';
+import {watchRemoveFavoriteMovie} from './user/user.saga';
+import {watchRefreshToken} from './user/user.saga';
+import {watchAddFavoriteMovie} from './user/user.saga';
 
 export function* rootSaga() {
     yield all([watchRemoveFavoriteMovie(), watchRefreshToken(), watchAddFavoriteMovie()]);

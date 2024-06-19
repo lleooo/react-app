@@ -93,7 +93,7 @@ const MovieOutLine = styled.div`
 
 
 const BackgroundMovie = ({cardIndex}) => {
-    const movies = useSelector(state => state.monster);
+    const movies = useSelector(state => state.movies);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

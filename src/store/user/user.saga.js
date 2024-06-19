@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {tokenAction} from "./token.type";
+import {userAction} from "./user.type";
 import {toastAsync} from '../toast/toast.action';
 
 export function* watchRefreshToken() {
@@ -21,7 +21,7 @@ export function* refreshTokenSaga(action) {
         if (refreshTokenRes.refresh) {
             localStorage.setItem('jwt', refreshTokenRes.access_token);
             const newJwt = localStorage.getItem('jwt');
-            yield put({type: tokenAction.REFRESH_TOKEN_SUCCESS, payload: {'access_token': newJwt, 'refresh_token': jwt_refresh}});
+            yield put({type: userAction.REFRESH_TOKEN_SUCCESS, payload: {'access_token': newJwt, 'refresh_token': jwt_refresh}});
             yield put(action.payload.reTryMsg);
         }
     } catch (error) {
@@ -52,7 +52,7 @@ export function* addFavoriteMovieSaga(action) {
 
         switch (addFavoriteRes.msg) {
             case "successful":
-                yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': addFavoriteRes.data}});
+                yield put({type: userAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': addFavoriteRes.data}});
                 yield put(toastAsync({'result': 'success', 'msg': addFavoriteRes.msg, 'showSubMsg': false, 'subMsg': ''}));
                 break;
             case "Token has expired":
@@ -88,7 +88,7 @@ export function* removeFavoriteMovieSaga(action) {
 
         switch (rmFavoriteRes.msg) {
             case "success":
-                yield put({type: tokenAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': rmFavoriteRes.data}});
+                yield put({type: userAction.MODIFY_FAVORITE_SUCCESS, payload: {'favorite': rmFavoriteRes.data}});
                 yield put(toastAsync({'result': 'success', 'msg': rmFavoriteRes.msg, 'showSubMsg': false, 'subMsg': ''}));
                 break;
             case "Token has expired":

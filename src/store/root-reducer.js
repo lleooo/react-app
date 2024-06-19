@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux';
-import {monsterReducer} from './monster/monster.reducer';
-import {tokenReducer} from './jwt-token/token.reducer';
+import {moviesReducer} from './movies/movies.reducer';
+import {userReducer} from './user/user.reducer';
 import {backgroundReducer} from './background-img/background.reducer';
 import {toastReducer} from './toast/toast.reducer';
 
 export const rootReducer = combineReducers({
-    monster: monsterReducer,
-    user: tokenReducer,
+    movies: moviesReducer,
+    user: userReducer,
     background: backgroundReducer,
     toast: toastReducer
 });

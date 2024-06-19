@@ -1,5 +1,5 @@
 import {useDispatch} from "react-redux";
-import {loginAsync} from "../../store/jwt-token/token.action";
+import {loginAsync} from "../../store/user/user.action";
 import AuthForm from '../auth-form/auth-form.component';
 import {
     FormContainer,

@@ -1,74 +1,96 @@
-# React 電影網站
+# React 電影網站[連結](https://movieeeeeeeeee.netlify.app)
 
-這是一個使用 React 框架構建的電影網站，它使用了 The Movie Database (TMDB) 的 API 來提供近期有名的電影，並通過 flask server 與 mongoDB 來管理使用者與其愛好的電影(server github 連結)
+這是一個使用 React 框架構建的電影網站，它使用了 The Movie Database (TMDB) 的 API 來提供近期有名的電影，並通過 flask server 與 mongoDB 來管理使用者與其愛好的電影([Flask 連結](https://github.com/lleooo/react-app-flask-server))
 
-## 功能與用途
+## 功能
 
--了解目前最新電影的詳細資料
+- **用戶註冊和登錄系統**：實現了基於 JWT 的認證系統。
 
--可以收藏自己感興趣的電影
+- **第三方登錄**：用戶可以方便地使用 Google 帳戶登錄。
 
--搜尋自己有興趣的電影
+- **電影搜索和推薦**：用戶可以搜索電影並將其添加到自己的收藏夾中。
 
-### `npm start`
+- **數據儲存**：使用 MongoDB 數據庫存儲用戶信息和用戶喜歡的電影列表。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 技術棧
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **前端**：React
+  - 使用 Redux 管理全域狀態，如當前 user 訊息。
+  - 使用 React Router 管理應用路由,並設置 private route 限制沒有登入的使用者
+  - 使用 Redux Saga 和 Redux Thunk 處理發送至 Flask 的異步操作。
+  - 使用 styled-components 與 tailwinds 建構畫面
+  - 在輸入事件中實現防抖功能減少 API 的呼叫
+- **後端**：[Flask](https://github.com/lleooo/react-app-flask-server)
+  - 建立 RESTful API，處理用戶認證、數據儲存。
+  - 使用 Flask-JWT-Extended 實現 JWT 認證。
+  - 驗證 Google 登入之 user
+- **資料庫**：MongoDB Atlas
+  - 使用 MongoDB Atlas 儲存用戶訊息與喜好電影。
 
-### `npm test`
+## 專案截圖
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### 登入頁面
 
-### `npm run build`
+![登錄頁面截圖](/screenShot1.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 首頁
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![首頁截圖](/screenShot2.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 安裝和運行步驟
 
-### `npm run eject`
+1. 克隆此專案
+2. 安裝套件
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. 運行專案
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. 克隆 [Flask server](https://github.com/lleooo/react-app-flask-server)
+5. 進入專案資料夾
 
-## Learn More
+```
+cd react-app-flask-server
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+6. 安裝虛擬環境套件
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+pip install virtualenv
+```
 
-### Code Splitting
+7. 新增虛擬環境
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+virtualenv venv
+```
 
-### Analyzing the Bundle Size
+8. 啟動虛擬環境
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+shell:
+. \venv\Scripts\activate
+```
 
-### Making a Progressive Web App
+```
+bash:
+source venv/Scripts/activate
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+9. 安裝套件
 
-### Advanced Configuration
+```
+pip install -r requirements.txt
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+10. 啟動 Flask server
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+python master.py
+```

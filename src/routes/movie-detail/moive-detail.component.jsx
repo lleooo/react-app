@@ -46,12 +46,14 @@ const Detail = () => {
             return movieDetail.similar.results.slice(0, 5).map((movie, idx) => (
                 <Card key={idx} className="max-w-sm" onClick={() => navigateToSimilarMovie(movie.id)}>
                     <div className="flex flex-col items-center pb-6 justify-between h-full">
-                        <div className=" w-24 h-28 bg-fuchsia-600">
+                        <div className="">
                             <img alt="" src={`${getMovieImg('185', movie.poster_path)}`} className="w-full h-full" />
+                            <h3 className=" text-sm font-medium text-white">{movie.title}</h3>
                         </div>
-                        <div>
+                        {/* <div>
+                            {console.log(movie.title)}
                             <h5 className=" text-xl font-medium text-white">{movie.title}</h5>
-                        </div>
+                        </div> */}
                     </div>
                 </Card>
             ));

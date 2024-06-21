@@ -104,7 +104,7 @@ const NavBar = () => {
 
   return (
     <>
-      <Navbar fluid rounded>
+      <Navbar fluid className="border-b-2">
         <Navbar.Brand href="https://flowbite-react.com">
           <img src={logo} alt="" />
         </Navbar.Brand>
@@ -116,7 +116,6 @@ const NavBar = () => {
           <Navbar.Link href="/movies/popular">Popular</Navbar.Link>
           <Navbar.Link href="/movies/loves">Loves</Navbar.Link>
         </Navbar.Collapse>
-        <DarkThemeToggle />
       </Navbar>
       <Outlet />
     </>

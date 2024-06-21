@@ -1,6 +1,17 @@
 # React 電影網站[連結](https://movieeeeeeeeee.netlify.app)
 
-這是一個使用 React 框架構建的電影網站，它使用了 The Movie Database (TMDB) 的 API 來提供近期有名的電影，並通過 flask server 與 mongoDB 來管理使用者與其愛好的電影([Flask 連結](https://github.com/lleooo/react-app-flask-server))
+這是一個使用 React 框架構建的電影網站，它使用了 The Movie Database (TMDB) 的 API 來提供近期有名的電影，並通過 Flask 伺服器與 mongoDB 連結來管理使用者與其愛好的電影([Flask 伺服器連結](https://github.com/lleooo/react-app-flask-server))
+
+## 架構流程圖
+
+```plaintext
++--------------------+        +-------------------+         +---------------------+
+|                    |        |                   |         |                     |
+|    前端 (React)    | <----> |    後端 (Flask)   | <-----> |   資料庫 (MongoDB)  |
+|  部署於 Netlify    |        |  部署於 Render    |         | 部署於 MongoDB Atlas|
+|                    |        |                   |         |                     |
++--------------------+        +-------------------+         +---------------------+
+```
 
 ## 功能
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {getMovieImg} from "../../utils/tmdb/tmdb.utils";
 
 
 const Card = styled.div`
@@ -38,7 +39,7 @@ const MovieSliderCard = ({detail, activeCard, clickEvent, style}) => {
             <MovieImg
                 alt={`movie ${title}`}
                 //w92、w154、w185、w342、w500、w780、w1280
-                src={`https://image.tmdb.org/t/p/w154/${poster_path}`}
+                src={`${getMovieImg('154', poster_path)}`}
             />
             <MovieTitle>{title}</MovieTitle>
         </Card>

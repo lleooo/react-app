@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {Tabs, Card} from "flowbite-react";
+import {fetchMovieById, getMovieImg} from "../../utils/tmdb/tmdb.utils";
 
 
 const Detail = () => {
@@ -11,7 +12,7 @@ const Detail = () => {
 
     useEffect(() => {
         const fetchDetail = async () => {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US&append_to_response=release_dates,credits,recommendations,similar,images&language=en-US`);
+            const response = await fetchMovieById(id);
             const movieData = await response.json();
             setMovieDetail({...movieData});
         };
@@ -28,7 +29,7 @@ const Detail = () => {
                 <Card key={idx} className="max-w-sm">
                     <div className="flex flex-col items-center pb-10 justify-between h-full">
                         <div className="rounded-full w-32 h-32 overflow-hidden relative">
-                            <img alt="" src={`https://image.tmdb.org/t/p/w185/${actor.profile_path}`} className="relative bottom-5" />
+                            <img alt="" src={`${getMovieImg('185', actor.profile_path)}`} className="relative bottom-5" />
                         </div>
                         <div>
                             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{actor.name}</h5>
@@ -46,7 +47,7 @@ const Detail = () => {
                 <Card key={idx} className="max-w-sm" onClick={() => navigateToSimilarMovie(movie.id)}>
                     <div className="flex flex-col items-center pb-6 justify-between h-full">
                         <div className=" w-24 h-28 bg-fuchsia-600">
-                            <img alt="" src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`} className="w-full h-full" />
+                            <img alt="" src={`${getMovieImg('185', movie.poster_path)}`} className="w-full h-full" />
                         </div>
                         <div>
                             <h5 className=" text-xl font-medium text-white">{movie.title}</h5>
@@ -60,14 +61,14 @@ const Detail = () => {
     return (
         <div
             style={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/w1280/${movieDetail.backdrop_path})`
+                backgroundImage: `url(${getMovieImg('1280', movieDetail.backdrop_path)})`
             }}
             className="h-screen bg-cover bg-no-repeat flex justify-center items-center"
         >
             <div className="size-5/6 bg-black/30 backdrop-blur-sm">
                 <div className="flex flex-row p-6 h-full">
                     <div className=" w-2/6 h-full">
-                        <img src={`https://image.tmdb.org/t/p/w500/${movieDetail.poster_path}`} alt="" className="w-full h-full object-cover" />
+                        <img src={`${getMovieImg('500', movieDetail.poster_path)}`} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div className=" w-4/6 p-8 bg-white opacity-80">
                         <section className="w-full">

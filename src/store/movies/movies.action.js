@@ -11,7 +11,7 @@ export const fetchMovieFailed = () => {
 
 export const getMovieAsync = () => (dispatch) => {
     try {
-        fetch('https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=EN')
+        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=EN`)
             .then((response) => response.json())
             .then((movies) => {
                 dispatch(fetchMovieSuccess(movies));

@@ -1,12 +1,13 @@
 
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import {getMovieImg} from '../../utils/tmdb/tmdb.utils';
 const MovieCard = ({movie, button, showRating}) => {
     const votePercent = (movie.vote_average) / 10 * 100;
     return (
         <div className=" relative w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href={`/movies/${movie.id}`}>
-                <img className="p-4 rounded-t-lg" src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="" />
+                <img className="p-4 rounded-t-lg" src={`${getMovieImg('500', movie.backdrop_path)}`} alt="" />
             </a>
 
             {showRating && <div className=' w-1/4 absolute top-0 left-0'>

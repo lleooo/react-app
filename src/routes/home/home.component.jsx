@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import MovieCardList from "../../components/movie-card-list/movie-card-list.component";
+import {fetchPopularMovie} from "../../utils/tmdb/tmdb.utils";
 
 const Home = () => {
     const [page, setPage] = useState(1);
@@ -19,7 +20,7 @@ const Home = () => {
     const fetchMovies = async (page) => {
         isLoading.current = true;
         try {
-            const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=EN&page=${page}`);
+            const res = await fetchPopularMovie(page);
             const movies = await res.json();
 
             setMovies((pre) => [...pre, ...movies.results]);

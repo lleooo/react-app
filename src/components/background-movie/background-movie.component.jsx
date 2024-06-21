@@ -8,6 +8,7 @@ import {Button} from "flowbite-react";
 import {useNavigate} from "react-router-dom";
 import Toast from "../toast/toast.component";
 import {useEffect, useRef} from "react";
+import {getMovieImg} from "../../utils/tmdb/tmdb.utils";
 
 
 const MovieContainer = styled.div`
@@ -162,7 +163,7 @@ const BackgroundMovie = ({cardIndex}) => {
                 {movies[cardIndex] &&
                     <>
                         <div style={{
-                            backgroundImage: `url('https://image.tmdb.org/t/p/w1280/${movies[cardIndex].backdrop_path}')`
+                            backgroundImage: `url(${getMovieImg('1280', movies[cardIndex].backdrop_path)})`
                         }}
                             className="w-screen h-screen bg-cover bg-inherit bg-no-repeat ml-40">
                         </div>

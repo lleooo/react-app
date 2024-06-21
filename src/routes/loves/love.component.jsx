@@ -4,6 +4,7 @@ import React from "react";
 // import store from "../../store/store";
 import {connect} from "react-redux";
 import MovieCardList from "../../components/movie-card-list/movie-card-list.component";
+import {fetchMovieById} from "../../utils/tmdb/tmdb.utils";
 
 class Loves extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Loves extends React.Component {
     const {favorite} = this.props;
 
     const favoriteData = favorite.map(async (id) => {
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US`);
+      const res = await fetchMovieById(id);
       const movieData = await res.json();
       return movieData;
     });
@@ -79,7 +80,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Loves);
 
 //     useEffect(() => {
 //         const response = user.favorite.map(async (id) => {
-//             const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US`);
+//             const res = await fetch(``);
 //             const data = await res.json();
 //             return data;
 //         });

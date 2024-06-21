@@ -1,6 +1,4 @@
-const key = 'e147528034b3b1192f389af6460b3ad9';
-
-// get type api : https://api.themoviedb.org/3/genre/movie/list?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US
+// get type api : https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US
 export const movieType = new Map([
     [28, "Action"],
     [12, "Adventure"],
@@ -23,15 +21,22 @@ export const movieType = new Map([
     [37, "Western"]
 ]);
 
-
-const fetchMovie = () => {
-
+export const fetchPopularMovie = async (page) => {
+    return await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=EN&page=${page}`);
 };
 
 export const fetchSearchMovie = async (searchTerm) => {
     let respone;
-    await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${searchTerm}`)
+    await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${searchTerm}`)
         .then((response) => response.json())
         .then((res) => respone = res.results);
     return respone;
+};
+
+export const fetchMovieById = async (id) => {
+    return await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&append_to_response=release_dates,credits,recommendations,similar,images&language=en-US`);
+};
+
+export const getMovieImg = (width, path) => {
+    return `https://image.tmdb.org/t/p/w${width}/${path}`;
 };

@@ -32,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="54532982628-dmk3e53gfh1djcel7htm5pkiq3h85u9g.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <div className='app'>
         <GlobalStyle></GlobalStyle>
         <Routes>

@@ -27,7 +27,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                         </div>
                     );
                 })}
-                <Button type="submit">{buttonText === "loading" ? <Spinner /> : <span className="">{buttonText}</span>}</Button>
+                <Button type="submit">{buttonText === "loading" ? <span className=" font-medium"><Spinner size="sm" className=" mr-2" />Wait for server respone</span> : <span className="">{buttonText}</span>}</Button>
 
                 {showGoogle && (
                     <div className="flex w-full items-center flex-col mt-4">

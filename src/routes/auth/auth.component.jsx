@@ -1,4 +1,3 @@
-import {useSelector} from "react-redux";
 import {useState} from "react";
 import {
     LoginPage,
@@ -15,7 +14,6 @@ import Toast from "../../components/toast/toast.component";
 
 const Auth = () => {
     const [toggle, setToggle] = useState(false);
-    const toast = useSelector(state => state.toast);
 
     const toggleHandler = () => {
         setToggle(pre => !pre);
@@ -23,7 +21,7 @@ const Auth = () => {
 
     return (
         <LoginPage>
-            <Toast result={toast.result} msg={toast.msg} topPos={'10'}></Toast>
+            <Toast topPos={'10'}></Toast>
 
             <AuthContainer>
 

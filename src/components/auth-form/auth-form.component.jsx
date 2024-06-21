@@ -5,9 +5,11 @@ import {GoogleLogin} from "@react-oauth/google";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {loginSuccess} from "../../store/user/user.action";
+import {useState} from "react";
 
 const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const [showWaitText, setShowWaitText] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     return (
@@ -25,16 +27,17 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                         </div>
                     );
                 })}
-                <Button type="submit">{buttonText === "loading" ? <Spinner /> : <span>{buttonText}</span>}</Button>
+                <Button type="submit">{buttonText === "loading" ? <Spinner /> : <span className="">{buttonText}</span>}</Button>
 
                 {showGoogle && (
-                    <div className="flex w-full items-center flex-col mt-8">
-                        <div className=" w-full  text-center mb-4"><span > or login with</span></div>
+                    <div className="flex w-full items-center flex-col mt-4">
+                        {/* <div className=" w-full  text-center mb-4"><span > or login with</span></div> */}
                         <GoogleLogin
                             type="icon"
                             size="large"
                             shape="pill"
                             onSuccess={async (credentialResponse) => {
+                                setShowWaitText(true);
                                 const res = await fetch(`${process.env.REACT_APP_API_URL}/api/googleSignIn`, {
                                     method: "POST",
                                     body: JSON.stringify({
@@ -44,7 +47,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                                         "Content-Type": "application/json",
                                     }),
                                 });
-
+                                setShowWaitText(false);
                                 const googleUserInfo = await res.json();
 
                                 dispatch(loginSuccess(googleUserInfo['data']));
@@ -54,6 +57,7 @@ const AuthForm = ({fields, onSubmitEvent, buttonText, showGoogle = false}) => {
                                 // console.log('Login Failed');
                             }}
                         />
+                        {showWaitText && <span className=" font-medium"><Spinner size="sm" className=" mr-2" />Wait for server respone</span>}
                     </div>
                 )}
 

@@ -23,6 +23,10 @@ const Detail = () => {
         navigate(`/movies/${id}`);
     };
 
+    const goBack = () => {
+        navigate(-1);
+    };
+
     const renderActors = () => {
         if (movieDetail && movieDetail.credits) {
             return movieDetail.credits.cast.slice(0, 5).map((actor, idx) => (
@@ -68,7 +72,16 @@ const Detail = () => {
             className="h-screen bg-cover bg-no-repeat flex justify-center items-center"
         >
             <div className="size-5/6 bg-black/30 backdrop-blur-sm">
-                <div className="flex flex-row p-6 h-full">
+
+                <div className="flex flex-row p-6 h-full relative">
+                    <div className="absolute right-1 top-1 z-20">
+                        <button type="button" onClick={() => goBack()} class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                            <span className="sr-only">Close menu</span>
+                            <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                     <div className=" w-2/6 h-full">
                         <img src={`${getMovieImg('500', movieDetail.poster_path)}`} alt="" className="w-full h-full object-cover" />
                     </div>

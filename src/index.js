@@ -12,17 +12,23 @@ import {PersistGate} from 'redux-persist/lib/integration/react';
 
 import {BrowserRouter} from 'react-router-dom';
 
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const queryClient = new QueryClient();
+
 root.render(
-  // <React.StrictMode>
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
-  // </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </QueryClientProvider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

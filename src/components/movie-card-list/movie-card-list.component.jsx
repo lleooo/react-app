@@ -2,31 +2,18 @@ import MovieCard from "../movie-card/movie-card.component";
 import Skeleton from "../../components/skeleton/skeleton.component";
 import {useDispatch, useSelector} from "react-redux";
 import Toast from "../toast/toast.component";
+import useFavorites from "../../custom-hooks/useFavorites";
 
 /**
  * 
  * @param {Object} props
  * @param {Array} props.movies - 電影資訊列表
- * @param {Boolean} props.showSkeleton - 使否顯示Skeleton
- * @param {Boolean} props.isLazyload - 此movieList是否需要lazyload功能
  * @param {String} props.buttonType - list裡顯示的不同button
  */
-const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, path}) => {
-    const dispatch = useDispatch();
+const MovieCardList = ({movies = [], path}) => {
     const favorite = useSelector(state => state.user.favorite);
-    const skeletonAmount = 16;
+    const {addFavorite, rmFavorite} = useFavorites();
 
-    const moviesWithSkeleton = isLazyload ? movies.filter(movie => movie) : movies;
-
-    if (isLazyload) for (let i = 0; i < 4; i++)moviesWithSkeleton.push(null);
-
-    const addFavorite = async (movieID) => {
-        dispatch({type: "ADD_FAVORITE_MOVIE", payload: movieID});
-    };
-
-    const rmFavorite = (movieID) => {
-        dispatch({type: "REMOVE_FAVORITE_MOVIE", payload: movieID});
-    };
 
     const renderButton = (movieID) => {
 
@@ -56,17 +43,11 @@ const MovieCardList = ({movies, showSkeleton = false, isLazyload = false, path})
         <div className="flex justify-center bg-white dark:bg-gray-800" >
             <Toast topPos={'20'}></Toast>
             <div className="w-5/6 grid grid-cols-4 gap-4 mt-20">
-                {showSkeleton ? (
-                    <>
-                        {Array.from({length: skeletonAmount}).map((_, i) => (
-                            <Skeleton key={i} />
-                        ))}
-                    </>
-                ) : (
-                    moviesWithSkeleton.map((movie, idx) => {
+                {
+                    movies.map((movie, idx) => {
                         return movie ? <MovieCard key={idx} movie={movie} button={renderButton} showRating={path === "home"} /> : <Skeleton key={idx} />;
                     })
-                )}
+                }
             </div>
         </div >
     );

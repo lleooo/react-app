@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import Toast from "../toast/toast.component";
 import {useEffect, useRef} from "react";
 import {getMovieImg} from "../../utils/tmdb/tmdb.utils";
+import useFavorites from "../../custom-hooks/useFavorites";
 
 
 const MovieContainer = styled.div`
@@ -96,8 +97,8 @@ const MovieOutLine = styled.div`
 
 const BackgroundMovie = ({cardIndex}) => {
     const movies = useSelector(state => state.movies);
+    const {addFavorite} = useFavorites();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const outLineContainerRef = useRef(null);
     const outLineTextRef = useRef(null);
@@ -150,12 +151,6 @@ const BackgroundMovie = ({cardIndex}) => {
         return () => window.removeEventListener('resize', adjustOutLineFontSize);
     }, [movies, cardIndex]);
 
-
-
-
-    const addFavorite = async (movieID) => {
-        dispatch({type: "ADD_FAVORITE_MOVIE", payload: movieID});
-    };
     return (
         <>
             <MovieContainer>

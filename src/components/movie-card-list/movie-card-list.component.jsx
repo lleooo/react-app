@@ -1,19 +1,14 @@
+import {useSelector} from "react-redux";
+
 import MovieCard from "../movie-card/movie-card.component";
 import Skeleton from "../../components/skeleton/skeleton.component";
-import {useDispatch, useSelector} from "react-redux";
 import Toast from "../toast/toast.component";
+
 import useFavorites from "../../custom-hooks/useFavorites";
 
-/**
- * 
- * @param {Object} props
- * @param {Array} props.movies - 電影資訊列表
- * @param {String} props.buttonType - list裡顯示的不同button
- */
-const MovieCardList = ({movies = [], path}) => {
+const MovieCardList = ({movies, path}) => {
     const favorite = useSelector(state => state.user.favorite);
     const {addFavorite, rmFavorite} = useFavorites();
-
 
     const renderButton = (movieID) => {
 
@@ -39,17 +34,20 @@ const MovieCardList = ({movies = [], path}) => {
     };
 
 
+
     return (
-        <div className="flex justify-center bg-white dark:bg-gray-800" >
+        <>
             <Toast topPos={'20'}></Toast>
-            <div className="w-5/6 grid grid-cols-4 gap-4 mt-20">
+            <div className="w-[70%] grid grid-cols-4 gap-4 mt-20">
+                {movies.length === 0 && "movie not found"}
                 {
-                    movies.map((movie, idx) => {
+                    movies && movies.map((movie, idx) => {
                         return movie ? <MovieCard key={idx} movie={movie} button={renderButton} showRating={path === "home"} /> : <Skeleton key={idx} />;
                     })
                 }
             </div>
-        </div >
+
+        </>
     );
 };
 export default MovieCardList;

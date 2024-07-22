@@ -21,8 +21,16 @@ export const movieType = new Map([
     [37, "Western"]
 ]);
 
+export const getMovieType = async () => {
+    return await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
+};
+
 export const fetchPopularMovie = async (page) => {
     return await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=EN&page=${page}`);
+};
+
+export const getMovies = async (listType, page) => {
+    return await fetch(`https://api.themoviedb.org/3/movie/${listType}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=EN&page=${page}`);
 };
 
 export const fetchSearchMovie = async (searchTerm) => {

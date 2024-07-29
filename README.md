@@ -27,6 +27,7 @@
 
 - **前端**：React
   - 使用 Redux 管理全域狀態，如當前 user 訊息。
+  - 使用 TanStack Query 實現 API 資料的快取
   - 使用 React Router 管理應用路由,並設置 private route 限制沒有登入的使用者
   - 使用 Redux Saga 和 Redux Thunk 處理發送至 Flask 的異步操作。
   - 使用 styled-components 與 tailwinds 建構畫面
